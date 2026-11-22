@@ -1,0 +1,14 @@
+{
+  "name": "Villa Beats Radio",
+  "short_name": "Villa Beats",
+  "description": "Tu voz, tu música, tu ritmo. Desde Villa Nueva, Guatemala",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#FFDD00",
+  "icons": [
+    { "src": "logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "logo.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
