@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VillaBeats - Radio en Vivo</title>
 <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#12002b">
+<link rel="icon" href="logo.png">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{
@@ -14,7 +16,6 @@
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; padding:20px; overflow:hidden; position:relative;
   }
-  /* Destellos */
   .spark{position:absolute; border-radius:50%; background:#fff; opacity:.8; animation:twinkle 2s infinite}
   @keyframes twinkle{0%,100%{transform:scale(.5);opacity:.2}50%{transform:scale(1.4);opacity:1}}
   .spark:nth-child(1){top:12%;left:18%;width:8px;height:8px}
@@ -23,7 +24,6 @@
   .spark:nth-child(4){top:70%;right:18%;width:9px;height:9px;animation-delay:1.2s}
   .spark:nth-child(5){top:38%;left:8%;width:5px;height:5px;animation-delay:.6s}
   .spark:nth-child(6){top:45%;right:8%;width:5px;height:5px;animation-delay:1s}
-
   .logo-wrap{position:relative; width:220px; height:220px; margin-bottom:18px; z-index:2}
   .logo-wrap::before{
     content:""; position:absolute; inset:-14px; border-radius:50%;
@@ -37,7 +37,6 @@
   }
   .playing{ animation:pulse 1.2s infinite; }
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-
   h1{font-size:42px; letter-spacing:3px; z-index:2; text-shadow:0 0 20px #ff00cc}
   h1 span{color:#ffcc00}
   .subtitle{opacity:.85; margin:6px 0 18px; font-size:15px; z-index:2}
@@ -49,13 +48,17 @@
   .now-label{font-size:11px; letter-spacing:2px; color:#ffcc00; text-transform:uppercase}
   #song{font-size:19px; font-weight:bold; margin-top:6px; line-height:1.3}
   #artist{font-size:13px; opacity:.8; margin-top:2px}
-
   #playBtn{
     background:linear-gradient(90deg,#ff00cc,#ff6600); border:none; color:#fff;
     font-size:19px; font-weight:bold; padding:16px 38px; border-radius:50px;
     cursor:pointer; box-shadow:0 0 30px rgba(255,0,204,.6); z-index:2;
   }
   #playBtn:active{transform:scale(.96)}
+  #installBtn{
+    margin-top:14px; background:#fff; color:#12002b; border:none;
+    font-size:15px; font-weight:bold; padding:12px 26px; border-radius:50px;
+    cursor:pointer; z-index:2; display:none;
+  }
   .status{margin-top:14px; font-size:13px; opacity:.7; z-index:2}
   .footer{position:absolute; bottom:14px; font-size:12px; opacity:.5}
 </style>
@@ -65,87 +68,116 @@
   <div class="spark"></div><div class="spark"></div><div class="spark"></div>
 
   <div class="logo-wrap" id="logoWrap">
-    <img src="logo.png" alt="VillaBeats" onerror="this.src='https://villabeats.pages.dev/logo.png'">
+    <img src="logo.png" alt="VillaBeats">
   </div>
 
   <h1>VILLA<span>BEATS</span></h1>
   <p class="subtitle">La radio que te mueve • Villa Nueva, Guatemala</p>
 
   <div class="now-box">
-    <div class="now-label">🔴 Ahora Suena</div>
-    <div id="song">Conectando...</div>
-    <div id="artist">VillaBeats Radio</div>
+    <div class="now-label">🔴 EN VIVO</div>
+    <div id="song">VillaBeats Radio</div>
+    <div id="artist">Sonando ahora • Villa Nueva</div>
   </div>
 
   <button id="playBtn">▶ ESCUCHAR EN VIVO</button>
+  <button id="installBtn">📲 INSTALAR APP</button>
   <div class="status" id="status">Tocá play para escuchar</div>
   <div class="footer">© 2026 VillaBeats</div>
 
-  <audio id="audio" preload="none"></audio>
+  <audio id="audio" preload="auto" playsinline></audio>
 
 <script>
-  // TU STREAM PANEL - YA EN HTTPS
   const STREAM_URL = "https://streampanel.online/8688/stream";
-  const META_URL = "https://streampanel.online/8688/status-json.xsl";
-
+  const LOGO_URL = "https://villabeats.pages.dev/logo.png";
   const audio = document.getElementById('audio');
   const btn = document.getElementById('playBtn');
-  const songEl = document.getElementById('song');
-  const artistEl = document.getElementById('artist');
+  const installBtn = document.getElementById('installBtn');
   const statusEl = document.getElementById('status');
   const logoWrap = document.getElementById('logoWrap');
   let playing = false;
+  let triedAuto = false;
 
-  btn.addEventListener('click', () => {
-    if (!playing) {
-      audio.src = STREAM_URL + "?t=" + Date.now();
-      audio.play().then(() => {
-        playing = true;
-        btn.textContent = "⏸ PAUSAR";
-        logoWrap.classList.add('playing');
-        statusEl.textContent = "En vivo • Sonando ahora";
-        fetchMeta();
-      }).catch(e => {
-        statusEl.textContent = "No se pudo conectar, tocá de nuevo";
-        console.log(e);
+  // --- ESTO ES LO QUE SE HABIA PERDIDO: NOTIFICACION CON LOGO ---
+  function setMediaSession(){
+    if('mediaSession' in navigator){
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: 'VillaBeats - Radio en Vivo',
+        artist: 'VillaBeats Radio',
+        album: 'En Vivo • Villa Nueva',
+        artwork: [
+          { src: LOGO_URL, sizes: '96x96', type: 'image/png' },
+          { src: LOGO_URL, sizes: '128x128', type: 'image/png' },
+          { src: LOGO_URL, sizes: '192x192', type: 'image/png' },
+          { src: LOGO_URL, sizes: '256x256', type: 'image/png' },
+          { src: LOGO_URL, sizes: '512x512', type: 'image/png' }
+        ]
       });
-    } else {
-      audio.pause();
-      audio.src = "";
-      playing = false;
-      btn.textContent = "▶ ESCUCHAR EN VIVO";
-      logoWrap.classList.remove('playing');
-      statusEl.textContent = "Pausado";
-    }
-  });
-
-  async function fetchMeta() {
-    try {
-      const r = await fetch(META_URL);
-      const data = await r.json();
-      // Icecast / StreamPanel format
-      let title = "";
-      try {
-        const src = data.icestats.source;
-        const s = Array.isArray(src) ? src[0] : src;
-        title = s.title || s.server_name || "";
-      } catch(e) {}
-      if (title && title !== songEl.textContent) {
-        if (title.includes(" - ")) {
-          const parts = title.split(" - ");
-          artistEl.textContent = parts[0];
-          songEl.textContent = parts.slice(1).join(" - ");
-        } else {
-          songEl.textContent = title;
-          artistEl.textContent = "VillaBeats Radio";
-        }
-      }
-    } catch(e) {
-      console.log("meta error", e);
+      navigator.mediaSession.setActionHandler('play', ()=>{ startRadio(); });
+      navigator.mediaSession.setActionHandler('pause', ()=>{ stopRadio(); });
+      navigator.mediaSession.setActionHandler('stop', ()=>{ stopRadio(); });
     }
   }
-  setInterval(() => { if (playing) fetchMeta(); }, 10000);
-  fetchMeta();
+
+  function startRadio(){
+    if(playing) return;
+    audio.src = STREAM_URL + "?t=" + Date.now();
+    audio.play().then(()=>{
+      playing = true;
+      btn.textContent = "⏸ PAUSAR";
+      logoWrap.classList.add('playing');
+      statusEl.textContent = "En vivo • Sonando ahora";
+      setMediaSession();
+    }).catch(()=>{});
+  }
+
+  function stopRadio(){
+    audio.pause();
+    audio.src = "";
+    playing = false;
+    btn.textContent = "▶ ESCUCHAR EN VIVO";
+    logoWrap.classList.remove('playing');
+    statusEl.textContent = "Pausado";
+    if('mediaSession' in navigator){ navigator.mediaSession.metadata = null; }
+  }
+
+  btn.addEventListener('click', ()=>{ if(!playing) startRadio(); else stopRadio(); });
+
+  // Intentar iniciar solo + primer toque
+  window.addEventListener('load', ()=>{ setTimeout(()=>{ startRadio(); triedAuto = true; }, 500); });
+  document.addEventListener('touchstart', ()=>{ if(!playing) startRadio(); });
+  document.addEventListener('click', ()=>{ if(!playing && triedAuto) startRadio(); });
+
+  // Que siga sonando en segundo plano
+  document.addEventListener('visibilitychange', ()=>{});
+
+  // Reconectar si se corta
+  audio.addEventListener('error', ()=>{ if(playing) setTimeout(startRadio, 2000); });
+  audio.addEventListener('stalled', ()=>{ if(playing) setTimeout(()=>{ audio.src = STREAM_URL + "?t=" + Date.now(); audio.play().catch(()=>{}); }, 2000); });
+
+  // BOTON INSTALAR APP
+  let deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = "block";
+  });
+  window.addEventListener('appinstalled', ()=>{ installBtn.style.display = "none"; });
+  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(isIos){ installBtn.style.display = "block"; }
+  installBtn.addEventListener('click', async ()=>{
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      installBtn.style.display = "none";
+    } else if(isIos){
+      alert("En iPhone:\n1. Tocá Compartir ⬆️\n2. 'Agregar a pantalla de inicio'\n3. 'Agregar'");
+    } else {
+      alert("En Android / Chrome:\n1. Tocá los 3 puntitos ⋮\n2. 'Instalar app' o 'Agregar a pantalla de inicio'");
+    }
+  });
+  setTimeout(()=>{ if(deferredPrompt) installBtn.style.display = "block"; }, 1000);
 </script>
 </body>
 </html>
