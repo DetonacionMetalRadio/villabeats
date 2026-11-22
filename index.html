@@ -51,11 +51,19 @@ function togglePlay(){
     title: 'Villa Beats Radio - En Vivo',
     artist: 'Villa Beats Radio',
     album: 'Desde Villa Nueva, Guatemala',
+    artwork: if ('mediaSession' in navigator) {
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: 'Villa Beats Radio - En Vivo',
+    artist: 'Villa Beats Radio',
+    album: 'Desde Villa Nueva, Guatemala',
     artwork: [
-      { src: 'logo.png', sizes: '512x512', type: 'image/png' },
-      { src: 'logo.png', sizes: '256x256', type: 'image/png' },
-      { src: 'logo.png', sizes: '96x96', type: 'image/png' }
+      { src: 'https://detonacionmetalradio.github.io/villabeats/logo.png', sizes: '512x512', type: 'image/png' },
+      { src: 'https://detonacionmetalradio.github.io/villabeats/logo.png', sizes: '256x256', type: 'image/png' },
+      { src: 'https://detonacionmetalradio.github.io/villabeats/logo.png', sizes: '96x96', type: 'image/png' }
     ]
+  });
+  navigator.mediaSession.playbackState = 'playing';
+}
   });
 }
 </body>
