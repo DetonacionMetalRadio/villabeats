@@ -3,60 +3,159 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Villa Beats Radio - En Vivo</title>
+<title>Villa Beats Radio - Villa Nueva</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FFDD00">
+<link rel="apple-touch-icon" href="logo.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#000;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
-.wrap{width:100%;max-width:480px;display:flex;flex-direction:column;align-items:center;text-align:center}
-.logo-img{width:200px;height:200px;border-radius:50%;object-fit:cover;border:4px solid #FFDD00;box-shadow:0 0 30px rgba(255,221,0,.5);display:block;margin:0 auto 10px;background:#111}
-h1{font-size:42px;color:#FFDD00;letter-spacing:2px}
-.slogan{color:#ccc;margin:5px 0 20px}
-.player{background:#161616;width:100%;border-radius:20px;padding:20px;border:1px solid #333}
-.cover{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:15px;display:block;background:#222}
-.song{font-size:17px;font-weight:bold;margin:15px 0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.artist{color:#aaa;font-size:14px;margin-bottom:15px}
-.play-btn{background:#FFDD00;color:#000;font-size:20px;font-weight:900;padding:16px;width:100%;border:none;border-radius:50px;cursor:pointer;display:block;text-align:center;text-decoration:none}
-audio{width:100%;margin-top:15px}
-.social{display:flex;gap:10px;width:100%;margin-top:20px}
-.social a{flex:1;background:#222;color:#fff;padding:12px;border-radius:10px;text-decoration:none;font-size:14px}
+body{background:#0a0a0a;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
+.logo{width:220px;height:220px;border-radius:50%;object-fit:cover;border:4px solid #FFDD00;box-shadow:0 0 30px #FFDD00;margin-top:10px}
+h1{font-size:34px;margin:15px 0 5px;letter-spacing:1px}
+h1 span{color:#FFDD00}
+.slogan{color:#ccc;font-size:14px;margin-bottom:20px;text-align:center}
+.player{background:#161616;width:100%;max-width:420px;border-radius:20px;padding:20px;border:1px solid #333}
+.cover{width:100%;border-radius:15px;aspect-ratio:1/1;object-fit:cover}
+.artista{color:#FFDD00;font-weight:900;font-size:14px;text-transform:uppercase;margin-top:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tema{font-size:20px;font-weight:700;margin:4px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.envivo{color:#25D366;font-size:12px;font-weight:700}
+.btn{width:100%;background:#FFDD00;color:#000;border:none;padding:15px;border-radius:50px;font-size:18px;font-weight:900;margin-top:15px;cursor:pointer}
+.btn:active{transform:scale(.98)}
+.acciones{margin-top:18px;display:flex;gap:12px;justify-content:center}
+.accion{flex:1;background:#222;color:#fff;border:1px solid #333;padding:13px;border-radius:50px;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.accion.activo{color:#ff2d55;border-color:#ff2d55;background:#2a1218}
 </style>
 </head>
 <body>
-<div class="wrap">
-<img src="logo.png" class="logo-img" alt="Villa Beats">
-<h1>VILLA BEATS</h1>
-<p class="slogan">Tu voz, tu música, tu ritmo. Desde Villa Nueva, Guatemala</p>
+<img class="logo" src="logo.png" alt="Villa Beats">
+<h1>VILLA <span>BEATS</span></h1>
+<p class="slogan">Tu voz, tu música, tu ritmo.<br>Desde Villa Nueva, Guatemala</p>
+
 <div class="player">
-<img src="logo.png" class="cover" alt="Villa Beats">
-<div class="song" id="songTitle">VILLA BEATS EN VIVO</div>
-<div class="artist">EN VIVO • VILLA BEATS</div>
-<button class="play-btn" id="playBtn" onclick="togglePlay()">▶ ESCUCHAR EN VIVO</button>
-<audio id="audio" src="https://streampanel.online/8688/stream" preload="none"></audio>
+<img class="cover" src="logo.png" id="cover">
+<div class="artista" id="artista">VILLA BEATS</div>
+<div class="tema" id="tema">Dale Play para escuchar</div>
+<div class="envivo">● EN VIVO - VILLA NUEVA</div>
+<button class="btn" id="playBtn">▶ ESCUCHAR EN VIVO</button>
+<audio id="audio" src="https://streampanel.online/8688/stream" preload="none" playsinline></audio>
+<div class="acciones">
+<button class="accion" id="likeBtn">🤍 <span id="likeCount">0</span></button>
+<button class="accion" id="shareBtn">↗️ Compartir</button>
 </div>
-<div class="social">
-<a href="https://www.facebook.com/" target="_blank">Facebook</a>
-<a href="https://www.tiktok.com/" target="_blank">TikTok</a>
-<a href="https://wa.me/50200000000" target="_blank">WhatsApp</a>
 </div>
-</div>
+
 <script>
-function togglePlay(){
-  var a=document.getElementById('audio');
-  var btn=document.getElementById('playBtn');
-  if(a.paused){ a.volume=0.9; a.play(); btn.innerHTML='⏸ PAUSAR'; }
-  else{ a.pause(); btn.innerHTML='▶ ESCUCHAR EN VIVO'; }
+const audio = document.getElementById('audio');
+const btn = document.getElementById('playBtn');
+const artistaEl = document.getElementById('artista');
+const temaEl = document.getElementById('tema');
+const LOGO = 'https://detonacionmetalradio.github.io/villabeats/logo.png';
+
+function setMediaSession(artista, tema) {
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: tema || 'Villa Beats Radio - En Vivo',
+      artist: artista || 'Villa Beats Radio',
+      album: 'Desde Villa Nueva, Guatemala',
+      artwork: [
+        { src: LOGO, sizes: '512x512', type: 'image/png' },
+        { src: LOGO, sizes: '256x256', type: 'image/png' },
+        { src: LOGO, sizes: '96x96', type: 'image/png' }
+      ]
+    });
+  }
 }
-</script><script>if ('mediaSession' in navigator) {
-  navigator.mediaSession.metadata = new MediaMetadata({
-    title: 'Villa Beats Radio - En Vivo',
-    artist: 'Villa Beats Radio',
-    album: 'Desde Villa Nueva, Guatemala',
-    artwork: [
-      { src: 'https://detonacionmetalradio.github.io/villabeats/logo.png', sizes: '512x512', type: 'image/png' },
-      { src: 'https://detonacionmetalradio.github.io/villabeats/logo.png', sizes: '256x256', type: 'image/png' },
-      { src: 'https://detonacionmetalradio.github.io/villabeats/logo.png', sizes: '96x96', type: 'image/png' }
-    ]
-  });
-}</script>
+setMediaSession('Villa Beats Radio', 'Villa Beats Radio - En Vivo');
+
+if ('mediaSession' in navigator) {
+  navigator.mediaSession.setActionHandler('play', () => audio.play());
+  navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+}
+
+btn.onclick = () => {
+  if (audio.paused) {
+    audio.play();
+    btn.textContent = '⏸ PAUSAR';
+    temaEl.textContent = 'Conectando...';
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+    localStorage.setItem('vb_playing', '1');
+  } else {
+    audio.pause();
+    btn.textContent = '▶ ESCUCHAR EN VIVO';
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+    localStorage.setItem('vb_playing', '0');
+  }
+};
+
+// Que no se detenga al bloquear / cambiar de app
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && localStorage.getItem('vb_playing') === '1' && audio.paused) {
+    audio.play().catch(()=>{});
+  }
+});
+audio.addEventListener('play', () => localStorage.setItem('vb_playing', '1'));
+audio.addEventListener('pause', () => localStorage.setItem('vb_playing', '0'));
+
+// METADATOS DEL STREAM - Artista - Tema
+async function actualizarMetadata() {
+  try {
+    const res = await fetch('https://streampanel.online/8688/status-json.xsl');
+    const data = await res.json();
+    let titulo = data.icestats?.source?.title || data.icestats?.source?.[0]?.title || '';
+    if (titulo && titulo.includes(' - ')) {
+      const partes = titulo.split(' - ');
+      artistaEl.textContent = partes[0];
+      temaEl.textContent = partes[1];
+      setMediaSession(partes[0], partes[1]);
+    } else if (titulo) {
+      artistaEl.textContent = 'VILLA BEATS';
+      temaEl.textContent = titulo;
+      setMediaSession('Villa Beats Radio', titulo);
+    }
+  } catch(e) {}
+}
+setInterval(actualizarMetadata, 10000);
+actualizarMetadata();
+
+// CORAZÓN ME GUSTA
+const likeBtn = document.getElementById('likeBtn');
+const likeCount = document.getElementById('likeCount');
+let likes = parseInt(localStorage.getItem('vb_likes') || '128');
+let liked = localStorage.getItem('vb_liked') === '1';
+function pintarLike() {
+  likeCount.textContent = likes;
+  likeBtn.classList.toggle('activo', liked);
+  likeBtn.innerHTML = (liked ? '❤️ ' : '🤍 ') + '<span id="likeCount">' + likes + '</span>';
+}
+pintarLike();
+likeBtn.onclick = () => {
+  if (liked) { likes--; liked = false; } else { likes++; liked = true; }
+  localStorage.setItem('vb_likes', likes);
+  localStorage.setItem('vb_liked', liked ? '1' : '0');
+  pintarLike();
+};
+
+// COMPARTIR
+document.getElementById('shareBtn').onclick = async () => {
+  const url = location.href.split('?')[0];
+  const texto = '🎧 Escuchá Villa Beats Radio - Tu voz, tu música, tu ritmo. Desde Villa Nueva, Guatemala 🔥 ' + url;
+  if (navigator.share) {
+    try { await navigator.share({ title: 'Villa Beats Radio', text: texto, url: url }); } catch(e) {}
+  } else if (navigator.clipboard) {
+    await navigator.clipboard.writeText(texto);
+    alert('¡Link copiado! Pegalo en WhatsApp');
+  } else {
+    window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+  }
+};
+
+// PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 </body>
 </html>
