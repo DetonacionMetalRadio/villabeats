@@ -9,40 +9,42 @@
 <style>
   *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
   body{background:#14051f;background:radial-gradient(circle at 50% 0%, #2a0a3a 0%, #14051f 60%, #0a0210 100%);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 20px;overflow-x:hidden}
-  .logo-wrap{width:260px;height:260px;border-radius:50%;padding:5px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);box-shadow:0 0 40px rgba(255,43,157,.4);margin-top:25px;overflow:hidden;flex-shrink:0;position:relative}
+
+  .logo-wrap{width:260px;height:260px;border-radius:50%;padding:5px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);box-shadow:0 0 40px rgba(255,43,157,.4);margin-top:10px;overflow:hidden;flex-shrink:0;position:relative}
   .logo-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:#000;position:relative;z-index:2}
   #logo-fallback{position:absolute;inset:5px;border-radius:50%;background:radial-gradient(circle,#2a0a3a 0%, #14051f 70%);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:1}
   #logo-fallback b{font-size:90px;font-weight:900;letter-spacing:2px;background:linear-gradient(90deg,#00e5ff,#ff2b9d,#ff9d00);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
   #logo-fallback span{font-size:12px;letter-spacing:4px;color:#FFDD00;font-weight:700;margin-top:-8px}
+
   h1{font-size:44px;margin:22px 0 2px;letter-spacing:2px;font-weight:900;text-align:center}
   h1 span{color:#FFDD00}
   .sub{color:#d5c5e0;font-size:14px;text-align:center;margin-bottom:20px}
 
-  /* MARCO ARRIBA CON DESTELLOS IGUAL QUE EL LOGO */
+  /* MARCO ARRIBA CON DESTELLOS */
   .marco-player{width:100%;max-width:420px;padding:4px;border-radius:18px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);background-size:200% 200%;animation:destello 3s linear infinite;box-shadow:0 0 35px rgba(255,43,157,.55), 0 0 60px rgba(0,229,255,.35);position:relative;z-index:20}
   @keyframes destello{0%{background-position:0% 50%}100%{background-position:200% 50%}}
   .marco-player::before{content:"✦ ✧ ✨ ✦ ✧";position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:18px;letter-spacing:18px;color:#FFDD00;text-shadow:0 0 10px #FFDD00, 0 0 20px #ff2b9d;animation:parpadea 1.2s infinite;pointer-events:none;z-index:3}
   @keyframes parpadea{0%,100%{opacity:1}50%{opacity:.3}}
   .marco-player-inner{background:#161616;border-radius:14px;overflow:hidden;min-height:76px;display:flex;align-items:center;justify-content:center}
 
-  /* CUANDO LA BARRA ENTRE AL MARCO, QUE PIERDA LO DE FIJA ABAJO */
-  .marco-player-inner > *{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;max-width:100% !important;transform:none !important;z-index:1 !important}
-  .marco-player-inner iframe{width:100% !important;display:block !important}
-
+  /* SOLO LO QUE ESTE ADENTRO DEL MARCO PIERDE LO FIJO */
+  .marco-player-inner > *{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;max-width:100% !important;transform:none !important}
   .footer{margin-top:auto;padding:25px 0 8px;color:#5a4a66;font-size:12px}
 </style>
 </head>
 <body>
 
-  <div class="logo-wrap">
-    <img src="logo.png?v=15" alt="Villa Beats" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='flex'">
+  <!-- 1. LOGO REDONDO ARRIBA - NO SE TOCA -->
+  <div class="logo-wrap" id="mi-logo">
+    <img src="logo.png?v=16" alt="Villa Beats" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='flex'">
     <div id="logo-fallback"><b>VB</b><span>VILLA BEATS</span></div>
   </div>
 
+  <!-- 2. TITULO -->
   <h1>VILLA<span>BEATS</span></h1>
   <p class="sub">La radio que te mueve • Villa Nueva, Guatemala</p>
 
-  <!-- BARRA ARRIBA A LA FUERZA -->
+  <!-- 3. BARRA ARRIBA CON DESTELLOS -->
   <div class="marco-player">
     <div class="marco-player-inner" id="destino-barra">
       <script src="https://sonocaster.com/recursos/widget.js" data-radio="villa-beats" data-tipo="barra" async></script>
@@ -52,26 +54,21 @@
   <div class="footer">© 2026 VillaBeats</div>
 
 <script>
-  // OPCION 1 - SUBIR LA BARRA A LA FUERZA
+  // v16 - SOLO MUEVE SI ES position:fixed, NUNCA TOCA EL LOGO
   const destino = document.getElementById('destino-barra');
-  let yaSubida = false;
+  const logo = document.getElementById('mi-logo');
 
   function subirBarra(){
-    // Buscamos TODO lo que SonoCaster creo fuera del marco
     const hijos = Array.from(document.body.children);
     for(const el of hijos){
+      if(el === logo) continue; // NUNCA TOCAR EL LOGO
       if(el.classList.contains('marco-player')) continue;
       if(el.tagName === 'SCRIPT') continue;
-      if(el.contains(destino)) continue;
+      if(el.contains(logo) || el.contains(destino)) continue;
 
       const cs = window.getComputedStyle(el);
-      // Si es fijo, o esta abajo, o tiene pinta de reproductor, lo subimos
-      const esFijo = cs.position === 'fixed' || cs.position === 'sticky';
-      const tienePlayer = el.querySelector('audio, iframe, button, [id*="sono"], [class*="sono"], [class*="player"], [class*="barra"]') !== null;
-      const esGrandeAbajo = el.offsetHeight > 40 && cs.bottom === '0px';
-
-      if(esFijo || tienePlayer || esGrandeAbajo){
-        // Lo metemos al marco
+      // SOLO si de verdad es fija, jefe. Si no es fija, no la tocamos.
+      if(cs.position === 'fixed'){
         el.style.setProperty('position','relative','important');
         el.style.setProperty('bottom','auto','important');
         el.style.setProperty('left','auto','important');
@@ -80,92 +77,16 @@
         el.style.setProperty('width','100%','important');
         el.style.setProperty('transform','none','important');
         destino.appendChild(el);
-        yaSubida = true;
         return true;
       }
     }
     return false;
   }
 
-  // Lo intentamos cada 300ms por 15 segundos, por si SonoCaster tarda
-  const timer = setInterval(()=>{
-    if(subirBarra()){ clearInterval(timer); }
-  }, 300);
-  setTimeout(()=> clearInterval(timer), 15000);
+  const timer = setInterval(()=>{ if(subirBarra()) clearInterval(timer); }, 400);
+  setTimeout(()=> clearInterval(timer), 12000);
 
-  // Y si SonoCaster vuelve a crear la barra abajo, la volvemos a subir
-  new MutationObserver(()=>{ if(!destino.querySelector('div, iframe')) subirBarra(); else subirBarra(); }).observe(document.body, {childList:true});
-
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=15').catch(()=>{}); }
-</script>
-</body>
-</html><!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Villa Beats Radio</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#14051f">
-<style>
-  *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-  body{background:#14051f;background:radial-gradient(circle at 50% 0%, #2a0a3a 0%, #14051f 60%, #0a0210 100%);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 20px;overflow-x:hidden}
-
-  .logo-wrap{width:260px;height:260px;border-radius:50%;padding:5px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);box-shadow:0 0 40px rgba(255,43,157,.4);margin-top:25px;overflow:hidden;flex-shrink:0;position:relative}
-  .logo-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:#000;position:relative;z-index:2}
-  #logo-fallback{position:absolute;inset:5px;border-radius:50%;background:radial-gradient(circle,#2a0a3a 0%, #14051f 70%);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:1}
-  #logo-fallback b{font-size:90px;font-weight:900;letter-spacing:2px;background:linear-gradient(90deg,#00e5ff,#ff2b9d,#ff9d00);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  #logo-fallback span{font-size:12px;letter-spacing:4px;color:#FFDD00;font-weight:700;margin-top:-8px}
-
-  h1{font-size:44px;margin:22px 0 2px;letter-spacing:2px;font-weight:900;text-align:center}
-  h1 span{color:#FFDD00}
-  .sub{color:#d5c5e0;font-size:14px;text-align:center;margin-bottom:20px}
-
-  /* MARCO CON DESTELLOS IGUAL QUE EL LOGO */
-  .marco-player{
-    width:100%;max-width:420px;
-    padding:4px;border-radius:18px;
-    background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);
-    background-size:200% 200%;
-    animation:destello 3s linear infinite;
-    box-shadow:0 0 35px rgba(255,43,157,.55), 0 0 60px rgba(0,229,255,.35);
-    position:relative;
-  }
-  @keyframes destello{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-  .marco-player::before{
-    content:"✦ ✧ ✨ ✦ ✧";
-    position:absolute;top:-18px;left:0;right:0;text-align:center;
-    font-size:18px;letter-spacing:18px;color:#FFDD00;
-    text-shadow:0 0 10px #FFDD00, 0 0 20px #ff2b9d;
-    animation:parpadea 1.2s infinite;pointer-events:none;z-index:3;
-  }
-  @keyframes parpadea{0%,100%{opacity:1}50%{opacity:.3}}
-  .marco-player-inner{background:#161616;border-radius:14px;overflow:hidden;min-height:72px;display:flex;align-items:center;justify-content:center}
-
-  .footer{margin-top:auto;padding:25px 0 8px;color:#5a4a66;font-size:12px}
-</style>
-</head>
-<body>
-
-  <div class="logo-wrap">
-    <img src="logo.png?v=12" alt="Villa Beats" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='flex'">
-    <div id="logo-fallback"><b>VB</b><span>VILLA BEATS</span></div>
-  </div>
-
-  <h1>VILLA<span>BEATS</span></h1>
-  <p class="sub">La radio que te mueve • Villa Nueva, Guatemala</p>
-
-  <!-- BARRA ARRIBA - EL SCRIPT VA ADENTRO DEL MARCO, POR ESO SALE ARRIBA -->
-  <div class="marco-player">
-    <div class="marco-player-inner">
-      <script src="https://sonocaster.com/recursos/widget.js" data-radio="villa-beats" data-tipo="barra" async></script>
-    </div>
-  </div>
-
-  <div class="footer">© 2026 VillaBeats</div>
-
-<script>
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=12').catch(()=>{}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=16').catch(()=>{}); }
 </script>
 </body>
 </html>
