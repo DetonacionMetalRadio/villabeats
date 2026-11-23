@@ -9,7 +9,7 @@
 <style>
   *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
   body{background:#14051f;background:radial-gradient(circle at 50% 0%, #2a0a3a 0%, #14051f 60%, #0a0210 100%);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 10px}
-  .logo-wrap{width:260px;height:260px;border-radius:50%;padding:5px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);box-shadow:0 0 40px rgba(255,43,157,.4);margin-top:25px}
+  .logo-wrap{width:260px;height:260px;border-radius:50%;padding:5px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);box-shadow:0 0 40px rgba(255,43,157,.4);margin-top:25px;overflow:hidden}
   .logo-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:#000}
   h1{font-size:44px;margin:22px 0 2px;letter-spacing:2px;font-weight:900;text-align:center}
   h1 span{color:#FFDD00}
@@ -24,47 +24,75 @@
   .btn:active{transform:scale(.97)}
   .estado{color:#9d8cae;font-size:13px;margin-top:12px}
   .footer{margin-top:auto;padding:25px 0 8px;color:#5a4a66;font-size:12px}
+  /* SONOCASTER REAL - SUENA PERO NO SE VE, NO TE MANDA A OTRO LADO */
+  #sonocaster-real{position:fixed;left:0;bottom:0;width:100%;height:1px;opacity:0;pointer-events:none;overflow:hidden}
 </style>
 </head>
 <body>
 
-  <div class="logo-wrap"><img src="villa-beats-512.png" alt="Villa Beats"></div>
+  <div class="logo-wrap"><img src="villa-beats-512.png" alt="Villa Beats" onerror="this.style.display='none'"></div>
   <h1>VILLA<span>BEATS</span></h1>
   <p class="sub">La radio que te mueve • Villa Nueva, Guatemala</p>
 
   <div class="vivo-box">
     <div class="en-vivo"><i></i> EN VIVO</div>
     <div class="radio-nombre">VillaBeats Radio</div>
-    <div class="sonando">Sonando ahora • Villa Nueva</div>
+    <div class="sonando" id="tema">Sonando ahora • Villa Nueva</div>
   </div>
 
   <button class="btn" id="playBtn">▶ ESCUCHAR</button>
-  <div class="estado" id="estado">En vivo • Sonando ahora</div>
+  <div class="estado" id="estado">Toca ESCUCHAR para sonar</div>
   <div class="footer">© 2026 VillaBeats</div>
 
-  <!-- SONOCASTER - TU LINK OFICIAL -->
-  <audio id="audio" src="https://sonocaster.com/villa-beats/" preload="none"></audio>
+  <!-- ESTE ES EL QUE SUENA DE VERDAD - WIDGET DE SONOCASTER -->
+  <div id="sonocaster-real">
+    <script src="https://sonocaster.com/recursos/widget.js" data-radio="villa-beats" data-tipo="barra"></script>
+  </div>
 
 <script>
-  const audio = document.getElementById('audio');
   const btn = document.getElementById('playBtn');
   const estado = document.getElementById('estado');
+  let sonando = false;
+
+  function buscarAudioSono(){
+    // El widget de SonoCaster crea un <audio> adentro
+    return document.querySelector('#sonocaster-real audio') || document.querySelector('audio');
+  }
+  function buscarBotonSono(){
+    return document.querySelector('#sonocaster-real button');
+  }
 
   btn.onclick = () => {
-    if(audio.paused){
-      audio.play().then(()=>{
-        btn.textContent = '⏸ PAUSAR';
-        estado.textContent = 'En vivo • SonoCaster';
-      }).catch(()=>{
-        // Si el navegador bloquea el audio directo, abrimos tu reproductor oficial de SonoCaster
-        window.open('https://sonocaster.com/villa-beats/', '_blank');
-      });
+    const audio = buscarAudioSono();
+    const btnSono = buscarBotonSono();
+
+    if(audio){
+      if(audio.paused){ audio.play(); sonando = true; }
+      else { audio.pause(); sonando = false; }
+    } else if(btnSono){
+      btnSono.click();
+      sonando = !sonando;
     } else {
-      audio.pause();
+      estado.textContent = 'Cargando SonoCaster... dale otra vez en 3 segundos';
+      return;
+    }
+
+    if(sonando){
+      btn.textContent = '⏸ PAUSAR';
+      estado.textContent = 'En vivo • SonoCaster';
+    } else {
       btn.textContent = '▶ ESCUCHAR';
       estado.textContent = 'Pausado';
     }
   };
+
+  // Cuando SonoCaster dice qué suena, lo mostramos en tu cajita
+  setInterval(()=>{
+    const t = document.querySelector('#sonocaster-real [class*="title"], #sonocaster-real [class*="song"], #sonocaster-real [class*="tema"]');
+    if(t && t.textContent.trim()){
+      document.getElementById('tema').textContent = t.textContent.trim();
+    }
+  }, 5000);
 
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
 </script>
