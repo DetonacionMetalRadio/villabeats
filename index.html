@@ -8,36 +8,114 @@
 <meta name="theme-color" content="#14051f">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-  body{background:#14051f;background:radial-gradient(circle at 50% 0%, #2a0a3a 0%, #14051f 60%, #0a0210 100%);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 10px}
-  .logo-wrap{width:260px;height:260px;border-radius:50%;padding:5px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);box-shadow:0 0 40px rgba(255,43,157,.4);margin-top:25px;overflow:hidden}
+  body{background:#14051f;background:radial-gradient(circle at 50% 0%, #2a0a3a 0%, #14051f 60%, #0a0210 100%);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 10px;overflow-x:hidden}
+  .logo-wrap{width:260px;height:260px;border-radius:50%;padding:5px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);box-shadow:0 0 40px rgba(255,43,157,.4);margin-top:25px;overflow:hidden;flex-shrink:0}
   .logo-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:#000}
   h1{font-size:44px;margin:22px 0 2px;letter-spacing:2px;font-weight:900;text-align:center}
   h1 span{color:#FFDD00}
   .sub{color:#d5c5e0;font-size:14px;text-align:center;margin-bottom:22px}
-  .aviso{color:#9d8cae;font-size:13px;margin-top:2px;text-align:center}
+  .vivo-box{width:100%;max-width:420px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:18px 14px;text-align:center}
+  .en-vivo{color:#FFDD00;font-size:12px;letter-spacing:4px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
+  .en-vivo i{width:12px;height:12px;background:#ff3b30;border-radius:50%;display:inline-block;animation:parpadea 1.2s infinite}
+  @keyframes parpadea{0%,100%{opacity:1}50%{opacity:.3}}
+  .radio-nombre{font-size:22px;font-weight:700;margin-top:8px}
+  .sonando{color:#cbbfd6;font-size:14px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .btn{width:220px;margin-top:22px;border:none;cursor:pointer;background:linear-gradient(90deg,#ff2b9d 0%,#ff5e3a 55%,#ff9d00 100%);color:#fff;padding:14px;border-radius:50px;font-size:20px;font-weight:900;box-shadow:0 8px 25px rgba(255,43,157,.4)}
+  .btn:active{transform:scale(.97)}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .estado{color:#9d8cae;font-size:13px;margin-top:12px}
   .footer{margin-top:auto;padding:25px 0 8px;color:#5a4a66;font-size:12px}
-  /* CAJA DE LA TARJETA - VISIBLE PARA QUE SUENE */
-  .caja-tarjeta{width:100%;max-width:420px;margin-top:18px;border-radius:18px;overflow:hidden}
+
+  /* AQUI VA SONOCASTER - NO SE VE, NO ROMPE TU APP, PERO SI SUENA */
+  #caja-sonocaster{
+    position:fixed;left:0;bottom:0;width:100%;height:70px;
+    opacity:0.01;pointer-events:none;overflow:hidden;z-index:1;
+  }
+  /* Escondemos todo lo feo del widget, solo dejamos su audio */
+  #caja-sonocaster > div{transform:scale(0.1);transform-origin:bottom left}
 </style>
 </head>
 <body>
 
-  <div class="logo-wrap"><img src="villa-beats-512.png?v=6" alt="Villa Beats"></div>
+  <div class="logo-wrap"><img src="villa-beats-512.png?v=7" alt="Villa Beats"></div>
   <h1>VILLA<span>BEATS</span></h1>
   <p class="sub">La radio que te mueve • Villa Nueva, Guatemala</p>
 
-  <p class="aviso">Dale play abajo 👇 Suena aquí mismo</p>
+  <div class="vivo-box">
+    <div class="en-vivo"><i></i> EN VIVO</div>
+    <div class="radio-nombre">VillaBeats Radio</div>
+    <div class="sonando" id="tema">Sonando ahora • Villa Nueva</div>
+  </div>
 
-  <!-- TU CODIGO OFICIAL SONOCASTER - TIPO TARJETA - TAL CUAL -->
-  <div class="caja-tarjeta">
-    <div data-radio="villa-beats" data-tipo="tarjeta"></div>
+  <button class="btn" id="playBtn" disabled>⌛ CARGANDO...</button>
+  <div class="estado" id="estado">Cargando SonoCaster...</div>
+  <div class="footer">© 2026 VillaBeats</div>
+
+  <!-- TU CODIGO OFICIAL - TIPO BARRA (ES EL MAS CHIQUITO) -->
+  <div id="caja-sonocaster">
+    <div data-radio="villa-beats" data-tipo="barra"></div>
     <script src="https://sonocaster.com/recursos/widget.js" async></script>
   </div>
 
-  <div class="footer">© 2026 VillaBeats</div>
-
 <script>
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=6'); }
+  const btn = document.getElementById('playBtn');
+  const estado = document.getElementById('estado');
+  const tema = document.getElementById('tema');
+  let sonando = false;
+
+  function buscarPlaySono(){
+    // Buscamos el boton de play que crea SonoCaster
+    return document.querySelector('#caja-sonocaster button, #caja-sonocaster [class*="play"], #caja-sonocaster [onclick*="play"]');
+  }
+  function buscarAudioSono(){
+    return document.querySelector('#caja-sonocaster audio') || document.querySelector('audio');
+  }
+
+  // Esperamos a que SonoCaster cargue y activamos tu boton bonito
+  const esperar = setInterval(()=>{
+    const b = buscarPlaySono();
+    const a = buscarAudioSono();
+    if(b || a){
+      clearInterval(esperar);
+      btn.disabled = false;
+      btn.textContent = '▶ ESCUCHAR';
+      estado.textContent = 'Listo • Toca ESCUCHAR';
+    }
+  }, 500);
+
+  btn.onclick = () => {
+    const audio = buscarAudioSono();
+    const btnSono = buscarPlaySono();
+
+    if(audio){
+      if(audio.paused){ audio.play(); sonando = true; }
+      else { audio.pause(); sonando = false; }
+    } else if(btnSono){
+      btnSono.click();
+      sonando = !sonando;
+    } else {
+      estado.textContent = 'Todavía está cargando, dale otra vez en 2 segundos';
+      return;
+    }
+
+    if(sonando){
+      btn.textContent = '⏸ PAUSAR';
+      estado.textContent = 'En vivo • SonoCaster';
+    } else {
+      btn.textContent = '▶ ESCUCHAR';
+      estado.textContent = 'Pausado';
+    }
+  };
+
+  // Copiamos lo que dice SonoCaster a tu cajita bonita
+  setInterval(()=>{
+    const t = document.querySelector('#caja-sonocaster [class*="title"], #caja-sonocaster [class*="song"], #caja-sonocaster [class*="tema"]');
+    if(t && t.textContent.trim().length > 3){
+      tema.textContent = t.textContent.trim();
+    }
+  }, 4000);
+
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=7'); }
 </script>
 </body>
 </html>
