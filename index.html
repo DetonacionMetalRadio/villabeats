@@ -35,8 +35,6 @@
   @keyframes parpadea{0%,100%{opacity:1}50%{opacity:.3}}
   .marco-player-inner{background:#161616;border-radius:14px;overflow:hidden;min-height:76px;display:flex;align-items:center;justify-content:center}
   .marco-player-inner > *{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;max-width:100% !important;transform:none !important}
-
-  /* 3 BOTONES, JEFE - ME GUSTA | FACEBOOK | COMPARTIR */
   .botones{width:100%;max-width:420px;display:flex;gap:10px;margin-top:22px}
   .btn{flex:1;border:none;border-radius:50px;padding:14px 6px;font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .15s;text-decoration:none;text-align:center}
   .btn:active{transform:scale(.95)}
@@ -47,13 +45,15 @@
   .btn-share{background:#fff;color:#14051f;box-shadow:0 5px 20px rgba(255,255,255,.25)}
   .contador-likes{width:100%;max-width:420px;text-align:center;margin-top:10px;font-size:13px;color:#d5c5e0}
   .contador-likes b{color:#FFDD00}
-  .mensaje{width:100%;max-width:420px;text-align:center;margin-top:8px;font-size:13px;color:#00ff88;min-height:20px;font-weight:700}
+  /* MENSAJE CORDIAL, JEFE - MAS BONITO */
+  .mensaje{width:100%;max-width:420px;text-align:center;margin-top:12px;font-size:14px;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:10px 12px;border-radius:12px;min-height:20px;font-weight:700;line-height:1.4;opacity:0;transition:opacity .3s}
+  .mensaje.mostrar{opacity:1}
   .footer{margin-top:auto;padding:30px 0 8px;color:#5a4a66;font-size:12px;text-align:center;letter-spacing:1px}
 </style>
 </head>
 <body>
   <div class="logo-wrap" id="mi-logo">
-    <img src="logo.png?v=25" alt="Villa Beats" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='flex'">
+    <img src="logo.png?v=26" alt="Villa Beats" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='flex'">
     <div id="logo-fallback"><b>VB</b><span>VILLA BEATS</span></div>
   </div>
   <h1>VILLA<span>BEATS</span></h1>
@@ -64,16 +64,13 @@
       <script src="https://sonocaster.com/recursos/widget.js" data-radio="villa-beats" data-tipo="barra" async></script>
     </div>
   </div>
-
-  <!-- 3 BOTONES, JEFE -->
   <div class="botones">
     <button class="btn btn-like" id="btn-like" onclick="darLike()">❤️ <span id="texto-like">Me gusta</span></button>
-    <a class="btn btn-fb" href="https://www.facebook.com/share/1dfZUVLoeu/" target="_blank" rel="noopener">📘 Facebook</a>
+    <a class="btn btn-fb" id="btn-fb" href="https://www.facebook.com/share/1dfZUVLoeu/" target="_blank" rel="noopener" onclick="seguirFacebook()">📘 Facebook</a>
     <button class="btn btn-share" onclick="compartir()">↗️ Compartir</button>
   </div>
-  <div class="contador-likes">A <b id="num-likes">1,248</b> personas les gusta Villa Beats ❤️</div>
+  <div class="contador-likes">A <b id="num-likes">1,249</b> personas les gusta Villa Beats ❤️</div>
   <div class="mensaje" id="mensaje"></div>
-
   <div class="footer">© 2026 VillaBeats</div>
 <script>
   const destino = document.getElementById('destino-barra');
@@ -102,22 +99,35 @@
   }
   const timer = setInterval(()=>{ if(subirBarra()) clearInterval(timer); }, 400);
   setTimeout(()=> clearInterval(timer), 12000);
-  let likes = parseInt(localStorage.getItem('vb-likes-num') || '1248');
+
+  // MENSAJES CORDIALES, JEFE
+  const mensajeEl = document.getElementById('mensaje');
+  let timerMensaje;
+  function mostrarMensaje(texto){
+    mensajeEl.textContent = texto;
+    mensajeEl.classList.add('mostrar');
+    clearTimeout(timerMensaje);
+    timerMensaje = setTimeout(()=>{ mensajeEl.classList.remove('mostrar'); }, 5000);
+  }
+
+  let likes = parseInt(localStorage.getItem('vb-likes-num') || '1249');
   let yaDioLike = localStorage.getItem('vb-ya-like') === 'si';
   const btnLike = document.getElementById('btn-like');
   const numLikesEl = document.getElementById('num-likes');
   const textoLike = document.getElementById('texto-like');
-  const mensajeEl = document.getElementById('mensaje');
   function pintarLike(){
     numLikesEl.textContent = likes.toLocaleString('es-GT');
     if(yaDioLike){ btnLike.classList.add('liked'); textoLike.textContent = '¡Te gusta!'; }
     else { btnLike.classList.remove('liked'); textoLike.textContent = 'Me gusta'; }
   }
   function darLike(){
-    if(yaDioLike){ likes--; yaDioLike = false; localStorage.setItem('vb-ya-like', 'no'); mensajeEl.textContent = ''; }
-    else {
+    if(yaDioLike){
+      likes--; yaDioLike = false; localStorage.setItem('vb-ya-like', 'no');
+      mostrarMensaje('Has retirado tu like. VillaBeats espera verte pronto.');
+    } else {
       likes++; yaDioLike = true; localStorage.setItem('vb-ya-like', 'si');
-      mensajeEl.textContent = '¡Gracias por tu like, jefe! ❤️ ¡Villa Beats te lo agradece!';
+      // MENSAJE CORDIAL, JEFE
+      mostrarMensaje('VillaBeats agradece tu like ❤️');
       for(let i=0;i<6;i++){
         const c = document.createElement('div');
         c.textContent = '❤️';
@@ -132,26 +142,33 @@
   }
   window.darLike = darLike;
   pintarLike();
+
+  // FACEBOOK, JEFE
+  function seguirFacebook(){
+    mostrarMensaje('Gracias por seguirnos en VillaBeats 💙');
+  }
+  window.seguirFacebook = seguirFacebook;
+
+  // COMPARTIR, JEFE
   const MI_PAGINA = 'https://villabeats.pages.dev';
   async function compartir(){
     const texto = '🔥 ¡Escuchá Villa Beats! La radio que te mueve 🎶 Villa Nueva, Guatemala ❤️ ' + MI_PAGINA;
+    // MENSAJE CORDIAL DE UNA VEZ, JEFE
+    mostrarMensaje('Gracias por compartir VillaBeats 🙏');
     if(navigator.share){
       try{
         await navigator.share({title:'Villa Beats Radio', text:'¡Escuchá Villa Beats! La radio que te mueve 🎶', url: MI_PAGINA});
-        mensajeEl.textContent = '¡Gracias por compartir, jefe! 🙌';
         return;
       }catch(e){}
     }
     try{
       await navigator.clipboard.writeText(MI_PAGINA);
-      mensajeEl.textContent = '¡Link copiado! Pegalo en WhatsApp, Facebook o TikTok, jefe 📋';
     }catch(e){
       window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
-      mensajeEl.textContent = '¡Se abrió WhatsApp para compartir, jefe!';
     }
   }
   window.compartir = compartir;
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=25').catch(()=>{}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=26').catch(()=>{}); }
 </script>
 </body>
 </html>
