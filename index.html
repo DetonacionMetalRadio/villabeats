@@ -49,43 +49,55 @@
   .mensaje.mostrar{opacity:1}
   .footer{margin-top:auto;padding:30px 0 8px;color:#5a4a66;font-size:12px;text-align:center;letter-spacing:1px}
 
-  /* ===== VILLABEATS - BANNERS INTELIGENTES POR HORA - JEFE ===== */
-  .vb-carousel{width:100%;max-width:420px;margin-top:14px;overflow:hidden;border-radius:12px;background:#1A0B2E;box-shadow:0 0 20px rgba(255,43,157,.25);position:relative}
+  /* ===== BANNERS PROFESIONALES VILLABEATS - ACORDES A LA APP, JEFE ===== */
+  .vb-carousel{width:100%;max-width:420px;margin-top:14px;border-radius:16px;overflow:hidden;background:#1A0B2E;border:1px solid rgba(255,255,255,.10);box-shadow:0 10px 30px rgba(0,0,0,.45);position:relative}
   .vb-track{display:flex;transition:transform .6s cubic-bezier(.22,1,.36,1);will-change:transform}
-  .vb-slide{min-width:100%;padding:16px 14px 14px;text-align:center;color:#fff;box-sizing:border-box;position:relative;overflow:hidden}
-  .vb-slide.vamonos{background:linear-gradient(135deg,#2A1450,#3A1A6B)}
-  .vb-slide.recuerdo{background:linear-gradient(135deg,#2B1A0E,#4A2A10)}
-  .vb-slide.kpop{background:linear-gradient(135deg,#2A0E2E,#4B1A5A)}
-  .vb-slide.navidad{background:linear-gradient(90deg,#8b0000,#b30000,#0a5c2e,#b30000,#8b0000);background-size:200% 200%;animation:banner-fondo 6s ease-in-out infinite}
-  @keyframes banner-fondo{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-  .vb-live{position:absolute;top:10px;right:10px;background:#FF2D2D;color:#fff;font-size:10px;font-weight:900;padding:4px 8px;border-radius:20px;letter-spacing:.5px;display:none;align-items:center;gap:4px;z-index:2}
-  .vb-live i{width:7px;height:7px;background:#fff;border-radius:50%;display:inline-block;animation:vb-blink 1.2s infinite}
+  .vb-slide{min-width:100%;box-sizing:border-box;position:relative;overflow:hidden;padding:18px 16px 16px;display:flex;gap:14px;align-items:center;text-align:left;background:#1A0B2E}
+  .vb-slide::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 0%, rgba(255,255,255,.14), transparent 55%);pointer-events:none}
+  .vb-slide::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#00E5FF,#FF2B9D,#FFD700)}
+  .vb-slide.vamonos{background:linear-gradient(135deg,#1B1030 0%, #241545 100%)}
+  .vb-slide.vamonos::after{background:linear-gradient(180deg,#FFD700,#FF8A00)}
+  .vb-slide.recuerdo{background:linear-gradient(135deg,#1C1328 0%, #2A1A3A 100%)}
+  .vb-slide.recuerdo::after{background:linear-gradient(180deg,#FF2B9D,#7B2BFF)}
+  .vb-slide.kpop{background:linear-gradient(135deg,#1A0F2B 0%, #2A1548 100%)}
+  .vb-slide.kpop::after{background:linear-gradient(180deg,#C86BFF,#00E5FF)}
+  .vb-slide.navidad{background:linear-gradient(135deg,#121A12 0%, #1A2B1A 55%, #2A0A0A 100%)}
+  .vb-slide.navidad::after{background:linear-gradient(180deg,#FFD700,#0AC853)}
+  .vb-icon{width:58px;height:58px;min-width:58px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.15);position:relative;z-index:1}
+  .vb-slide.vamonos .vb-icon{background:linear-gradient(135deg,rgba(255,215,0,.22),rgba(255,138,0,.12))}
+  .vb-slide.recuerdo .vb-icon{background:linear-gradient(135deg,rgba(255,43,157,.22),rgba(123,43,255,.12))}
+  .vb-slide.kpop .vb-icon{background:linear-gradient(135deg,rgba(200,107,255,.25),rgba(0,229,255,.12))}
+  .vb-slide.navidad .vb-icon{background:linear-gradient(135deg,rgba(255,215,0,.22),rgba(10,200,83,.18))}
+  .vb-info{flex:1;position:relative;z-index:1;min-width:0}
+  .vb-kicker{font-size:10px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:#FFD700;opacity:.95}
+  .vb-slide.recuerdo .vb-kicker{color:#FF8FC7}
+  .vb-slide.kpop .vb-kicker{color:#D9A6FF}
+  .vb-slide.navidad .vb-kicker{color:#FFE9A3}
+  .vb-title{font-size:21px;font-weight:900;letter-spacing:.3px;line-height:1.05;margin:3px 0 2px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .vb-sub{font-size:12px;font-weight:700;color:#E8DFF2;line-height:1.35}
+  .vb-sub b{color:#fff}
+  .vb-desc{font-size:11.5px;line-height:1.4;color:#CFC3DE;margin-top:5px;font-weight:400}
+  .vb-badge{display:inline-flex;align-items:center;gap:5px;margin-top:9px;padding:5px 10px;border-radius:20px;font-size:10.5px;font-weight:800;letter-spacing:.4px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);color:#fff}
+  .vb-live{position:absolute;top:12px;right:12px;background:#E11D2E;color:#fff;font-size:9px;font-weight:900;padding:4px 8px;border-radius:20px;letter-spacing:.8px;display:none;align-items:center;gap:5px;z-index:2;box-shadow:0 4px 14px rgba(225,29,46,.45)}
+  .vb-live i{width:6px;height:6px;background:#fff;border-radius:50%;display:inline-block;animation:vb-blink 1.2s infinite}
   @keyframes vb-blink{0%,100%{opacity:1}50%{opacity:.2}}
   .vb-slide.is-live .vb-live{display:inline-flex}
-  .vb-emoji{font-size:26px;display:block;margin-bottom:4px;animation:vb-float 3s ease-in-out infinite}
-  @keyframes vb-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-  .vb-title{font-size:21px;font-weight:900;letter-spacing:1px;margin:0;line-height:1.1;color:#FFD700;text-transform:uppercase;text-shadow:0 0 12px rgba(255,215,0,.4)}
-  .vb-slide.kpop .vb-title{color:#FF9FF3}
-  .vb-slide.recuerdo .vb-title{color:#FFE8A3}
-  .vb-sub{font-size:13px;font-weight:900;margin:6px 0 0;color:#FFE696}
-  .vb-desc{font-size:12px;margin:4px 0 0;color:#fff;opacity:.85;line-height:1.4;font-weight:700}
-  .vb-badge{display:inline-block;margin-top:9px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.5px;background:#FFD700;color:#1A0B2E}
-  .vb-slide.kpop .vb-badge{background:#FF9FF3}
-  .vb-slide.is-live .vb-badge{background:#00C853;color:#fff}
-  .vb-nieve{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-  .vb-nieve i{position:absolute;top:-12px;color:#fff;font-style:normal;font-size:12px;opacity:.9;animation:cae-nieve 3.2s linear infinite}
-  .vb-nieve i:nth-child(1){left:8%;animation-delay:0s}
-  .vb-nieve i:nth-child(2){left:30%;animation-delay:.6s}
-  .vb-nieve i:nth-child(3){left:55%;animation-delay:1.1s}
-  .vb-nieve i:nth-child(4){left:78%;animation-delay:.3s}
-  .vb-nieve i:nth-child(5){left:92%;animation-delay:1.5s}
-  @keyframes cae-nieve{0%{transform:translateY(-10px) rotate(0deg);opacity:0}15%{opacity:1}100%{transform:translateY(110px) rotate(180deg);opacity:0}}
-  .vb-dots{display:flex;justify-content:center;gap:8px;padding:10px 0 10px;background:#140822}
-  .vb-dot{width:7px;height:7px;border-radius:50%;background:#ffffff33;border:0;cursor:pointer;transition:.3s;padding:0}
-  .vb-dot.active{width:22px;border-radius:10px;background:#FFD700}
-  .vb-progress{height:3px;background:#ffffff1a;overflow:hidden}
-  .vb-progress-bar{height:100%;width:0%;background:#FFD700;transition:width linear}
-  .vb-next{text-align:center;font-size:11px;color:#FFD700;background:#140822;padding:0 0 10px;margin:0;font-weight:700}
+  .vb-slide.is-live .vb-badge{background:#00C853;border-color:#00C853;color:#fff}
+  .vb-nieve{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+  .vb-nieve i{position:absolute;top:-12px;color:rgba(255,255,255,.55);font-style:normal;font-size:11px;animation:cae-nieve 3.5s linear infinite}
+  .vb-nieve i:nth-child(1){left:12%;animation-delay:0s}
+  .vb-nieve i:nth-child(2){left:38%;animation-delay:.7s}
+  .vb-nieve i:nth-child(3){left:62%;animation-delay:1.2s}
+  .vb-nieve i:nth-child(4){left:84%;animation-delay:.4s}
+  @keyframes cae-nieve{0%{transform:translateY(-10px);opacity:0}15%{opacity:1}100%{transform:translateY(120px);opacity:0}}
+  .vb-footer{background:#12081F;padding:10px 14px 11px}
+  .vb-progress{height:3px;background:rgba(255,255,255,.10);border-radius:10px;overflow:hidden}
+  .vb-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#FFD700,#FF2B9D);border-radius:10px;transition:width linear}
+  .vb-next{text-align:center;font-size:11px;color:#D8CCEB;margin:8px 0 0;font-weight:600}
+  .vb-next b{color:#FFD700;font-weight:800}
+  .vb-dots{display:flex;justify-content:center;gap:7px;padding:9px 0 0}
+  .vb-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);border:0;cursor:pointer;transition:.3s;padding:0}
+  .vb-dot.active{width:20px;border-radius:10px;background:#FFD700}
 </style>
 </head>
 <body>
@@ -108,48 +120,62 @@
   </div>
   <div class="contador-likes">A <b id="num-likes">1,249</b> personas les gusta Villa Beats ❤️</div>
 
-  <!-- ===== BANNERS INTELIGENTES - JEFE ===== -->
+  <!-- ===== BANNERS PROFESIONALES - JEFE ===== -->
   <div class="vb-carousel" id="vbCarousel">
     <div class="vb-track" id="vbTrack">
       <div class="vb-slide vamonos" data-start="360" data-end="480">
-        <span class="vb-live"><i></i> EN VIVO AHORA</span>
-        <span class="vb-emoji">🐓☀️</span>
-        <h3 class="vb-title">Vámonos Pues Villa</h3>
-        <p class="vb-sub">Lunes a Sábado • 6:00 AM – 8:00 AM</p>
-        <p class="vb-desc">Cumbia, banda y rancheras para despertar con ganas.<br>¡Vamos pues, que ya es hora!</p>
-        <span class="vb-badge">🔴 EN LA MAÑANA</span>
+        <span class="vb-live"><i></i> EN VIVO</span>
+        <div class="vb-icon">🌅</div>
+        <div class="vb-info">
+          <div class="vb-kicker">Lunes a Sábado • Mañana</div>
+          <h3 class="vb-title">Vámonos Pues Villa</h3>
+          <p class="vb-sub"><b>6:00 AM – 8:00 AM</b> • VillaBeats</p>
+          <p class="vb-desc">Cumbia, banda y rancheras para empezar el día con energía.</p>
+          <span class="vb-badge">☀️ DESPIERTA CON VILLABEATS</span>
+        </div>
       </div>
       <div class="vb-slide recuerdo" data-start="720" data-end="840">
-        <span class="vb-live"><i></i> EN VIVO AHORA</span>
-        <span class="vb-emoji">🎶❤️</span>
-        <h3 class="vb-title">La Hora del Recuerdo</h3>
-        <p class="vb-sub">Todos los días • 12:00 PM – 2:00 PM</p>
-        <p class="vb-desc">Baladas y clásicos para comer rico.<br>Juan Gabriel, José José, Ana Gabriel y más.</p>
-        <span class="vb-badge">🍽️ HORA DE COMER</span>
+        <span class="vb-live"><i></i> EN VIVO</span>
+        <div class="vb-icon">🎙️</div>
+        <div class="vb-info">
+          <div class="vb-kicker">Todos los días • Mediodía</div>
+          <h3 class="vb-title">La Hora del Recuerdo</h3>
+          <p class="vb-sub"><b>12:00 PM – 2:00 PM</b> • VillaBeats</p>
+          <p class="vb-desc">Baladas y clásicos para acompañar tu almuerzo.</p>
+          <span class="vb-badge">🎶 JUAN GABRIEL • JOSÉ JOSÉ</span>
+        </div>
       </div>
       <div class="vb-slide kpop" data-start="840" data-end="960">
-        <span class="vb-live"><i></i> EN VIVO AHORA</span>
-        <span class="vb-emoji">💜✨</span>
-        <h3 class="vb-title">K-Pop Zone</h3>
-        <p class="vb-sub">Todos los días • 2:00 PM – 4:00 PM</p>
-        <p class="vb-desc">BTS, BLACKPINK, Stray Kids, NewJeans.<br>Tu zona, tu música, tu fandom.</p>
-        <span class="vb-badge">💜 ARMY • BLINK • STAY</span>
+        <span class="vb-live"><i></i> EN VIVO</span>
+        <div class="vb-icon">💜</div>
+        <div class="vb-info">
+          <div class="vb-kicker">Todos los días • Tarde</div>
+          <h3 class="vb-title">K-Pop Zone</h3>
+          <p class="vb-sub"><b>2:00 PM – 4:00 PM</b> • VillaBeats</p>
+          <p class="vb-desc">BTS, BLACKPINK, Stray Kids y NewJeans en tu radio.</p>
+          <span class="vb-badge">✨ ARMY • BLINK • STAY</span>
+        </div>
       </div>
       <div class="vb-slide navidad" data-start="960" data-end="1040">
-        <div class="vb-nieve"><i>❄</i><i>❄</i><i>❄</i><i>❄</i><i>❄</i></div>
-        <span class="vb-live"><i></i> EN VIVO AHORA</span>
-        <span class="vb-emoji">🎄🎅</span>
-        <h3 class="vb-title">La Tarde Navideña</h3>
-        <p class="vb-sub">Todos los días • 4:00 PM – 5:20 PM</p>
-        <p class="vb-desc">Villancicos, cumbia navideña y alegría.<br>¡Falta 1 mes para Navidad!</p>
-        <span class="vb-badge">🎄 SOLO EN VILLABEATS</span>
+        <div class="vb-nieve"><i>❄</i><i>❄</i><i>❄</i><i>❄</i></div>
+        <span class="vb-live"><i></i> EN VIVO</span>
+        <div class="vb-icon">🎄</div>
+        <div class="vb-info">
+          <div class="vb-kicker">Todos los días • Temporada</div>
+          <h3 class="vb-title">La Tarde Navideña</h3>
+          <p class="vb-sub"><b>4:00 PM – 5:20 PM</b> • VillaBeats</p>
+          <p class="vb-desc">Villancicos y cumbia navideña para toda la familia.</p>
+          <span class="vb-badge">🎄 SOLO EN VILLABEATS</span>
+        </div>
       </div>
     </div>
-    <div class="vb-progress"><div class="vb-progress-bar" id="vbBar"></div></div>
-    <p class="vb-next" id="vbNext">Cargando programación...</p>
-    <div class="vb-dots" id="vbDots"></div>
+    <div class="vb-footer">
+      <div class="vb-progress"><div class="vb-progress-bar" id="vbBar"></div></div>
+      <p class="vb-next" id="vbNext">Cargando programación...</p>
+      <div class="vb-dots" id="vbDots"></div>
+    </div>
   </div>
-  <!-- ===== FIN BANNERS, JEFE ===== -->
+  <!-- ===== FIN BANNERS PROFESIONALES, JEFE ===== -->
 
   <div class="mensaje" id="mensaje"></div>
   <div class="footer">© 2026 VillaBeats</div>
@@ -157,15 +183,21 @@
   const destino = document.getElementById('destino-barra');
   const logo = document.getElementById('mi-logo');
 
-  // ===== SUBIR REPRODUCTOR - VERSION QUE NO SE RINDE, JEFE =====
+  // ===== REPRODUCTOR EN SU CUADRADO - V30 - NO SE BAJA, JEFE =====
   function subirBarra(){
+    // Si ya está adentro, jefe, no lo tocamos
+    if(destino.querySelector('iframe, audio, [class*="sonocaster"], [id*="sonocaster"]')) return true;
     const hijos = Array.from(document.body.children);
     for(const el of hijos){
       if(el === logo) continue;
       if(el.classList.contains('marco-player')) continue;
+      if(el.classList.contains('vb-carousel')) continue;
       if(el.tagName === 'SCRIPT') continue;
       if(el.contains(logo) || el.contains(destino)) continue;
+      // No tocar los corazones del like, jefe
+      if(el.textContent === '❤️' && el.style.position === 'fixed') continue;
       const cs = window.getComputedStyle(el);
+      // Caza fixed, absolute y sticky, jefe
       if(cs.position === 'fixed' || cs.position === 'absolute' || cs.position === 'sticky'){
         el.style.setProperty('position','relative','important');
         el.style.setProperty('bottom','auto','important');
@@ -173,14 +205,16 @@
         el.style.setProperty('right','auto','important');
         el.style.setProperty('top','auto','important');
         el.style.setProperty('width','100%','important');
+        el.style.setProperty('max-width','100%','important');
         el.style.setProperty('transform','none','important');
         el.style.setProperty('z-index','5','important');
         el.style.setProperty('margin','0','important');
         destino.appendChild(el);
         return true;
       }
+      // Si viene dentro de un div, jefe, también lo agarra
       const adentro = el.querySelector('iframe, audio, [class*="sonocaster"], [id*="sonocaster"], [class*="player"]');
-      if(adentro && !el.classList.contains('vb-carousel')){
+      if(adentro){
         el.style.setProperty('position','relative','important');
         el.style.setProperty('bottom','auto','important');
         el.style.setProperty('left','auto','important');
@@ -194,12 +228,15 @@
     }
     return false;
   }
+  // Lo busca siempre, jefe, no solo 12 segundos
   setInterval(subirBarra, 400);
+  // Observador: en cuanto Sonocaster lo crea, jefe, lo sube al cuadrado
   const observador = new MutationObserver(()=>{ subirBarra(); });
   observador.observe(document.body, { childList: true, subtree: true });
+  // Cuando le das play, jefe, también lo vuelve a subir
   document.addEventListener('click', ()=>{ setTimeout(subirBarra, 500); setTimeout(subirBarra, 2000); });
 
-  // ===== LOGICA BANNERS INTELIGENTES, JEFE =====
+  // ===== BANNERS PROFESIONALES - LOGICA POR HORA, JEFE =====
   (function(){
     const track = document.getElementById('vbTrack');
     const bar = document.getElementById('vbBar');
@@ -227,63 +264,9 @@
         modoVivo = true; detener();
         slides[vivo].classList.add('is-live');
         const badge = slides[vivo].querySelector('.vb-badge');
-        if(badge) badge.textContent = '🔴 SONANDO AHORA EN VILLABEATS';
+        if(badge) badge.textContent = '● SONANDO AHORA EN VILLABEATS';
         goTo(vivo);
-        nextText.textContent = '🔴 Estás escuchando este programa ahora mismo';
+        nextText.innerHTML = '🔴 Estás escuchando <b>este programa</b> ahora mismo';
         bar.style.background = '#00C853';
       } else {
-        modoVivo = false; bar.style.background = '#FFD700';
-        const prox = proximoPrograma();
-        const titulo = prox.querySelector('.vb-title').textContent;
-        const hora = formato(parseInt(prox.dataset.start));
-        nextText.textContent = '⏰ Próximo programa: ' + titulo + ' a las ' + hora;
-        if(!timerB) restart();
-        goTo(slides.indexOf(prox));
-      }
-    }
-    const car = document.getElementById('vbCarousel');
-    car.addEventListener('touchstart', ()=>{ if(!modoVivo) clearInterval(timerB); });
-    car.addEventListener('mouseenter', ()=>{ if(!modoVivo) clearInterval(timerB); });
-    car.addEventListener('mouseleave', ()=>{ if(!modoVivo) restart(); });
-    car.addEventListener('touchend', ()=>{ if(!modoVivo) restart(); });
-    actualizarPorHora();
-    setInterval(actualizarPorHora, 60000);
-  })();
-
-  // MENSAJES CORDIALES, JEFE
-  const mensajeEl = document.getElementById('mensaje');
-  let timerMensaje;
-  function mostrarMensaje(texto){
-    mensajeEl.textContent = texto;
-    mensajeEl.classList.add('mostrar');
-    clearTimeout(timerMensaje);
-    timerMensaje = setTimeout(()=>{ mensajeEl.classList.remove('mostrar'); }, 5000);
-  }
-  let likes = parseInt(localStorage.getItem('vb-likes-num') || '1249');
-  let yaDioLike = localStorage.getItem('vb-ya-like') === 'si';
-  const btnLike = document.getElementById('btn-like');
-  const numLikesEl = document.getElementById('num-likes');
-  const textoLike = document.getElementById('texto-like');
-  function pintarLike(){
-    numLikesEl.textContent = likes.toLocaleString('es-GT');
-    if(yaDioLike){ btnLike.classList.add('liked'); textoLike.textContent = '¡Te gusta!'; }
-    else { btnLike.classList.remove('liked'); textoLike.textContent = 'Me gusta'; }
-  }
-  function darLike(){
-    if(yaDioLike){
-      likes--; yaDioLike = false; localStorage.setItem('vb-ya-like', 'no');
-      mostrarMensaje('Has retirado tu like. VillaBeats espera verte pronto.');
-    } else {
-      likes++; yaDioLike = true; localStorage.setItem('vb-ya-like', 'si');
-      mostrarMensaje('VillaBeats agradece tu like ❤️');
-      for(let i=0;i<6;i++){
-        const c = document.createElement('div');
-        c.textContent = '❤️';
-        c.style.cssText = 'position:fixed;left:'+(50+Math.random()*20-10)+'%;top:70%;font-size:22px;pointer-events:none;z-index:99;transition:all 1s';
-        document.body.appendChild(c);
-        setTimeout(()=>{ c.style.top='50%'; c.style.opacity='0'; c.style.transform='translateY(-80px) scale(1.5)'; }, 50);
-        setTimeout(()=> c.remove(), 1100);
-      }
-    }
-    localStorage.setItem('vb-likes-num', likes);
-    pintar
+        modoVivo = false; bar.style.background = 'linear-gradient(90d
