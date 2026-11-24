@@ -1,5 +1,5 @@
-// VillaBeats - SW v36 - Barra en su ventanita
-const CACHE = 'villabeats-v36';
+// VillaBeats - SW v37
+const CACHE = 'villabeats-v37';
 const FILES = ['./','./index.html','./player.html','./manifest.json','./logo.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
