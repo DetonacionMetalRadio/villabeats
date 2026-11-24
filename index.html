@@ -49,8 +49,16 @@
   .mensaje.mostrar{opacity:1}
   .footer{margin-top:auto;padding:30px 0 8px;color:#5a4a66;font-size:12px;text-align:center;letter-spacing:1px}
   .vb-carousel{width:100%;max-width:420px;margin-top:14px;border-radius:16px;overflow:hidden;background:#1A0B2E;border:1px solid rgba(255,255,255,.10);box-shadow:0 10px 30px rgba(0,0,0,.45);position:relative}
-  .vb-track{display:flex;transition:transform .6s cubic-bezier(.22,1,.36,1);will-change:transform}
-  .vb-slide{min-width:100%;box-sizing:border-box;position:relative;overflow:hidden;padding:18px 16px 16px;display:flex;gap:14px;align-items:center;text-align:left;background:#1A0B2E}
+  /* BANNERS CON CSS, JEFE - SE MUEVEN SOLOS, JEFE, SIN JAVASCRIPT, JEFE */
+  .vb-track{display:flex;width:400%;animation:vbMover 20s linear infinite}
+  @keyframes vbMover{
+    0%,20%{transform:translateX(0%)}
+    25%,45%{transform:translateX(-25%)}
+    50%,70%{transform:translateX(-50%)}
+    75%,95%{transform:translateX(-75%)}
+    100%{transform:translateX(0%)}
+  }
+  .vb-slide{width:25%;box-sizing:border-box;position:relative;overflow:hidden;padding:18px 16px 16px;display:flex;gap:14px;align-items:center;text-align:left;background:#1A0B2E;flex-shrink:0}
   .vb-slide::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 0%, rgba(255,255,255,.14), transparent 55%);pointer-events:none}
   .vb-slide::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#00E5FF,#FF2B9D,#FFD700)}
   .vb-slide.vamonos{background:linear-gradient(135deg,#1B1030 0%, #241545 100%)}
@@ -90,12 +98,10 @@
   @keyframes cae-nieve{0%{transform:translateY(-10px);opacity:0}15%{opacity:1}100%{transform:translateY(120px);opacity:0}}
   .vb-footer{background:#12081F;padding:10px 14px 11px}
   .vb-progress{height:3px;background:rgba(255,255,255,.10);border-radius:10px;overflow:hidden}
-  .vb-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#FFD700,#FF2B9D);border-radius:10px;transition:width linear}
+  .vb-progress-bar{height:100%;width:100%;background:linear-gradient(90deg,#FFD700,#FF2B9D);border-radius:10px;animation:vbBarra 5s linear infinite}
+  @keyframes vbBarra{0%{width:0%}100%{width:100%}}
   .vb-next{text-align:center;font-size:11px;color:#D8CCEB;margin:8px 0 0;font-weight:600}
   .vb-next b{color:#FFD700;font-weight:800}
-  .vb-dots{display:flex;justify-content:center;gap:7px;padding:9px 0 0}
-  .vb-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);border:0;cursor:pointer;transition:.3s;padding:0}
-  .vb-dot.active{width:20px;border-radius:10px;background:#FFD700}
 </style>
 </head>
 <body>
@@ -109,7 +115,7 @@
 
   <div class="marco-player">
     <div class="marco-player-inner">
-      <iframe src="player.html?v=36" title="Villa Beats Player" allow="autoplay"></iframe>
+      <iframe src="player.html?v=39" title="Villa Beats Player" allow="autoplay"></iframe>
     </div>
   </div>
 
@@ -169,92 +175,46 @@
       </div>
     </div>
     <div class="vb-footer">
-      <div class="vb-progress"><div class="vb-progress-bar" id="vbBar"></div></div>
-      <p class="vb-next" id="vbNext">Cargando programación...</p>
-      <div class="vb-dots" id="vbDots"></div>
+      <div class="vb-progress"><div class="vb-progress-bar"></div></div>
+      <!-- YA NO DICE CARGANDO, JEFE. YA DICE EL TEXTO DE UNA VEZ, JEFE -->
+      <p class="vb-next" id="vbNext">🔴 Ahora en VillaBeats • <b>Vámonos Pues Villa • La Hora del Recuerdo • K-Pop Zone • La Tarde Navideña</b></p>
     </div>
   </div>
 
   <div class="mensaje" id="mensaje"></div>
   <div class="footer">© 2026 VillaBeats</div>
 <script>
-  // ===== BANNERS V38 - ARREGLADO, JEFE - AHORA SI SE MUEVE, JEFE =====
+  // Solo para el EN VIVO y los likes, jefe. Los banners ya se mueven solos con CSS, jefe.
   (function(){
-    var track = document.getElementById('vbTrack');
-    var bar = document.getElementById('vbBar');
-    var dotsBox = document.getElementById('vbDots');
-    var nextText = document.getElementById('vbNext');
-    if(!track || !bar || !dotsBox || !nextText) return;
-    var slides = track.children;
-    var total = slides.length;
-    var index = 0;
-    var TIEMPO = 4000;
-
-    function ahoraMinutos(){ var d = new Date(); return d.getHours()*60 + d.getMinutes(); }
-    function formato(min){ var h = Math.floor(min/60), m = min%60; var ap = h >= 12 ? 'PM' : 'AM'; h = h%12; if(h===0) h=12; return h + ':' + (m<10?'0'+m:m) + ' ' + ap; }
-
-    function actualizarTexto(){
-      var now = ahoraMinutos();
-      var vivoIdx = -1, proxIdx = -1;
-      for(var i=0;i<total;i++){
-        var s = parseInt(slides[i].getAttribute('data-start'));
-        var e = parseInt(slides[i].getAttribute('data-end'));
-        if(now >= s && now < e) vivoIdx = i;
-        if(s > now && proxIdx === -1) proxIdx = i;
-      }
-      for(var k=0;k<total;k++) slides[k].classList.remove('is-live');
-      if(vivoIdx !== -1){
-        slides[vivoIdx].classList.add('is-live');
-        var badge = slides[vivoIdx].querySelector('.vb-badge');
-        if(badge) badge.textContent = '● SONANDO AHORA EN VILLABEATS';
-        var tituloVivo = slides[vivoIdx].querySelector('.vb-title').textContent;
-        if(proxIdx !== -1){
-          var tituloProx = slides[proxIdx].querySelector('.vb-title').textContent;
-          var horaProx = formato(parseInt(slides[proxIdx].getAttribute('data-start')));
-          nextText.innerHTML = '🔴 Ahora: <b>' + tituloVivo + '</b> • Próximo: <b>' + tituloProx + '</b> • ' + horaProx;
-        } else {
-          nextText.innerHTML = '🔴 Ahora: <b>' + tituloVivo + '</b> • ¡Seguí escuchando VillaBeats!';
+    try{
+      var slides = document.querySelectorAll('.vb-slide');
+      var nextText = document.getElementById('vbNext');
+      function actualizar(){
+        var now = new Date().getHours()*60 + new Date().getMinutes();
+        var vivo = -1, prox = -1;
+        for(var i=0;i<slides.length;i++){
+          var s = parseInt(slides[i].getAttribute('data-start'));
+          var e = parseInt(slides[i].getAttribute('data-end'));
+          if(now >= s && now < e) vivo = i;
+          if(s > now && prox === -1) prox = i;
         }
-        bar.style.background = '#00C853';
-      } else {
-        if(proxIdx === -1) proxIdx = 0;
-        var tituloProx2 = slides[proxIdx].querySelector('.vb-title').textContent;
-        var horaProx2 = formato(parseInt(slides[proxIdx].getAttribute('data-start')));
-        nextText.innerHTML = 'Próximo programa: <b>' + tituloProx2 + '</b> • ' + horaProx2;
-        bar.style.background = 'linear-gradient(90deg,#FFD700,#FF2B9D)';
+        for(var k=0;k<slides.length;k++) slides[k].classList.remove('is-live');
+        if(vivo !== -1){
+          slides[vivo].classList.add('is-live');
+          var badge = slides[vivo].querySelector('.vb-badge');
+          if(badge) badge.textContent = '● SONANDO AHORA EN VILLABEATS';
+          var tituloVivo = slides[vivo].querySelector('.vb-title').textContent;
+          if(prox !== -1){
+            var tituloProx = slides[prox].querySelector('.vb-title').textContent;
+            nextText.innerHTML = '🔴 Ahora: <b>' + tituloVivo + '</b> • Próximo: <b>' + tituloProx + '</b>';
+          } else {
+            nextText.innerHTML = '🔴 Ahora: <b>' + tituloVivo + '</b> • ¡Seguí escuchando VillaBeats!';
+          }
+        }
       }
-    }
-
-    dotsBox.innerHTML = '';
-    for(var i=0;i<total;i++){
-      (function(n){
-        var b = document.createElement('button');
-        b.className = 'vb-dot';
-        b.onclick = function(){ goTo(n); };
-        dotsBox.appendChild(b);
-      })(i);
-    }
-    var dots = dotsBox.children;
-
-    function goTo(n){
-      index = n;
-      // CORRECCIÓN JEFE: 100 / total = 25% por banner, jefe. Antes era 100%, jefe, por eso se iba al vacío, jefe.
-      var paso = 100 / total;
-      track.style.transform = 'translateX(-' + (index * paso) + '%)';
-      for(var d=0; d<total; d++) dots[d].classList.toggle('active', d===index);
-      bar.style.transition = 'none';
-      bar.style.width = '0%';
-      void bar.offsetWidth;
-      bar.style.transition = 'width ' + TIEMPO + 'ms linear';
-      bar.style.width = '100%';
-    }
-    function next(){ goTo((index+1)%total); }
-
-    actualizarTexto();
-    goTo(0);
-    // NUNCA SE DETIENE, JEFE. Aunque toques, jefe, sigue, jefe.
-    setInterval(next, TIEMPO);
-    setInterval(actualizarTexto, 30000);
+      actualizar();
+      setInterval(actualizar, 60000);
+    }catch(e){}
   })();
 
   const mensajeEl = document.getElementById('mensaje');
@@ -305,4 +265,10 @@
     if(navigator.share){
       try{ await navigator.share({title:'Villa Beats Radio', text:'¡Escuchá Villa Beats! La radio que te mueve 🎶', url: MI_PAGINA}); return; }catch(e){}
     }
-    try{ await navigator.clipboard.writeText(MI_PAG
+    try{ await navigator.clipboard.writeText(MI_PAGINA); }catch(e){ window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank'); }
+  }
+  window.compartir = compartir;
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=39').catch(()=>{}); }
+</script>
+</body>
+</html>
