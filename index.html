@@ -108,7 +108,7 @@
   </div>
   <div class="contador-likes">A <b id="num-likes">1,249</b> personas les gusta Villa Beats ❤️</div>
 
-  <!-- ===== BANNERS INTELIGENTES - JEFE - REEMPLAZA EL BANNER VIEJO ===== -->
+  <!-- ===== BANNERS INTELIGENTES - JEFE ===== -->
   <div class="vb-carousel" id="vbCarousel">
     <div class="vb-track" id="vbTrack">
       <div class="vb-slide vamonos" data-start="360" data-end="480">
@@ -125,4 +125,165 @@
         <h3 class="vb-title">La Hora del Recuerdo</h3>
         <p class="vb-sub">Todos los días • 12:00 PM – 2:00 PM</p>
         <p class="vb-desc">Baladas y clásicos para comer rico.<br>Juan Gabriel, José José, Ana Gabriel y más.</p>
-        
+        <span class="vb-badge">🍽️ HORA DE COMER</span>
+      </div>
+      <div class="vb-slide kpop" data-start="840" data-end="960">
+        <span class="vb-live"><i></i> EN VIVO AHORA</span>
+        <span class="vb-emoji">💜✨</span>
+        <h3 class="vb-title">K-Pop Zone</h3>
+        <p class="vb-sub">Todos los días • 2:00 PM – 4:00 PM</p>
+        <p class="vb-desc">BTS, BLACKPINK, Stray Kids, NewJeans.<br>Tu zona, tu música, tu fandom.</p>
+        <span class="vb-badge">💜 ARMY • BLINK • STAY</span>
+      </div>
+      <div class="vb-slide navidad" data-start="960" data-end="1040">
+        <div class="vb-nieve"><i>❄</i><i>❄</i><i>❄</i><i>❄</i><i>❄</i></div>
+        <span class="vb-live"><i></i> EN VIVO AHORA</span>
+        <span class="vb-emoji">🎄🎅</span>
+        <h3 class="vb-title">La Tarde Navideña</h3>
+        <p class="vb-sub">Todos los días • 4:00 PM – 5:20 PM</p>
+        <p class="vb-desc">Villancicos, cumbia navideña y alegría.<br>¡Falta 1 mes para Navidad!</p>
+        <span class="vb-badge">🎄 SOLO EN VILLABEATS</span>
+      </div>
+    </div>
+    <div class="vb-progress"><div class="vb-progress-bar" id="vbBar"></div></div>
+    <p class="vb-next" id="vbNext">Cargando programación...</p>
+    <div class="vb-dots" id="vbDots"></div>
+  </div>
+  <!-- ===== FIN BANNERS, JEFE ===== -->
+
+  <div class="mensaje" id="mensaje"></div>
+  <div class="footer">© 2026 VillaBeats</div>
+<script>
+  const destino = document.getElementById('destino-barra');
+  const logo = document.getElementById('mi-logo');
+
+  // ===== SUBIR REPRODUCTOR - VERSION QUE NO SE RINDE, JEFE =====
+  function subirBarra(){
+    const hijos = Array.from(document.body.children);
+    for(const el of hijos){
+      if(el === logo) continue;
+      if(el.classList.contains('marco-player')) continue;
+      if(el.tagName === 'SCRIPT') continue;
+      if(el.contains(logo) || el.contains(destino)) continue;
+      const cs = window.getComputedStyle(el);
+      if(cs.position === 'fixed' || cs.position === 'absolute' || cs.position === 'sticky'){
+        el.style.setProperty('position','relative','important');
+        el.style.setProperty('bottom','auto','important');
+        el.style.setProperty('left','auto','important');
+        el.style.setProperty('right','auto','important');
+        el.style.setProperty('top','auto','important');
+        el.style.setProperty('width','100%','important');
+        el.style.setProperty('transform','none','important');
+        el.style.setProperty('z-index','5','important');
+        el.style.setProperty('margin','0','important');
+        destino.appendChild(el);
+        return true;
+      }
+      const adentro = el.querySelector('iframe, audio, [class*="sonocaster"], [id*="sonocaster"], [class*="player"]');
+      if(adentro && !el.classList.contains('vb-carousel')){
+        el.style.setProperty('position','relative','important');
+        el.style.setProperty('bottom','auto','important');
+        el.style.setProperty('left','auto','important');
+        el.style.setProperty('right','auto','important');
+        el.style.setProperty('top','auto','important');
+        el.style.setProperty('width','100%','important');
+        el.style.setProperty('transform','none','important');
+        destino.appendChild(el);
+        return true;
+      }
+    }
+    return false;
+  }
+  setInterval(subirBarra, 400);
+  const observador = new MutationObserver(()=>{ subirBarra(); });
+  observador.observe(document.body, { childList: true, subtree: true });
+  document.addEventListener('click', ()=>{ setTimeout(subirBarra, 500); setTimeout(subirBarra, 2000); });
+
+  // ===== LOGICA BANNERS INTELIGENTES, JEFE =====
+  (function(){
+    const track = document.getElementById('vbTrack');
+    const bar = document.getElementById('vbBar');
+    const dotsBox = document.getElementById('vbDots');
+    const nextText = document.getElementById('vbNext');
+    if(!track) return;
+    const slides = Array.from(track.children);
+    const total = slides.length;
+    let index = 0, timerB = null, modoVivo = false;
+    const TIEMPO = 6000;
+    function ahoraMinutos(){ const d = new Date(); return d.getHours()*60 + d.getMinutes(); }
+    function formato(min){ let h = Math.floor(min/60), m = min%60; let ap = h >= 12 ? 'PM' : 'AM'; h = h%12; if(h===0) h=12; return h + ':' + (m<10?'0'+m:m) + ' ' + ap; }
+    function programaActual(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); const e = parseInt(slides[i].dataset.end); if(now >= s && now < e) return i; } return -1; }
+    function proximoPrograma(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); if(s > now) return slides[i]; } return slides[0]; }
+    for(let i=0;i<total;i++){ const b = document.createElement('button'); b.className = 'vb-dot'; b.setAttribute('aria-label','Banner '+(i+1)); b.onclick = ()=>{ goTo(i); if(!modoVivo) restart(); }; dotsBox.appendChild(b); }
+    const dots = dotsBox.children;
+    function goTo(i){ index = i; track.style.transform = `translateX(-${index*100}%)`; for(let d=0; d<total; d++) dots[d].classList.toggle('active', d===index); bar.style.transition = 'none'; bar.style.width = '0%'; requestAnimationFrame(()=>{ if(!modoVivo){ bar.style.transition = `width ${TIEMPO}ms linear`; bar.style.width = '100%'; } else { bar.style.width = '100%'; } }); }
+    function next(){ goTo((index+1)%total); }
+    function restart(){ clearInterval(timerB); timerB = setInterval(next, TIEMPO); }
+    function detener(){ clearInterval(timerB); timerB = null; }
+    function actualizarPorHora(){
+      const vivo = programaActual();
+      slides.forEach(s => s.classList.remove('is-live'));
+      if(vivo !== -1){
+        modoVivo = true; detener();
+        slides[vivo].classList.add('is-live');
+        const badge = slides[vivo].querySelector('.vb-badge');
+        if(badge) badge.textContent = '🔴 SONANDO AHORA EN VILLABEATS';
+        goTo(vivo);
+        nextText.textContent = '🔴 Estás escuchando este programa ahora mismo';
+        bar.style.background = '#00C853';
+      } else {
+        modoVivo = false; bar.style.background = '#FFD700';
+        const prox = proximoPrograma();
+        const titulo = prox.querySelector('.vb-title').textContent;
+        const hora = formato(parseInt(prox.dataset.start));
+        nextText.textContent = '⏰ Próximo programa: ' + titulo + ' a las ' + hora;
+        if(!timerB) restart();
+        goTo(slides.indexOf(prox));
+      }
+    }
+    const car = document.getElementById('vbCarousel');
+    car.addEventListener('touchstart', ()=>{ if(!modoVivo) clearInterval(timerB); });
+    car.addEventListener('mouseenter', ()=>{ if(!modoVivo) clearInterval(timerB); });
+    car.addEventListener('mouseleave', ()=>{ if(!modoVivo) restart(); });
+    car.addEventListener('touchend', ()=>{ if(!modoVivo) restart(); });
+    actualizarPorHora();
+    setInterval(actualizarPorHora, 60000);
+  })();
+
+  // MENSAJES CORDIALES, JEFE
+  const mensajeEl = document.getElementById('mensaje');
+  let timerMensaje;
+  function mostrarMensaje(texto){
+    mensajeEl.textContent = texto;
+    mensajeEl.classList.add('mostrar');
+    clearTimeout(timerMensaje);
+    timerMensaje = setTimeout(()=>{ mensajeEl.classList.remove('mostrar'); }, 5000);
+  }
+  let likes = parseInt(localStorage.getItem('vb-likes-num') || '1249');
+  let yaDioLike = localStorage.getItem('vb-ya-like') === 'si';
+  const btnLike = document.getElementById('btn-like');
+  const numLikesEl = document.getElementById('num-likes');
+  const textoLike = document.getElementById('texto-like');
+  function pintarLike(){
+    numLikesEl.textContent = likes.toLocaleString('es-GT');
+    if(yaDioLike){ btnLike.classList.add('liked'); textoLike.textContent = '¡Te gusta!'; }
+    else { btnLike.classList.remove('liked'); textoLike.textContent = 'Me gusta'; }
+  }
+  function darLike(){
+    if(yaDioLike){
+      likes--; yaDioLike = false; localStorage.setItem('vb-ya-like', 'no');
+      mostrarMensaje('Has retirado tu like. VillaBeats espera verte pronto.');
+    } else {
+      likes++; yaDioLike = true; localStorage.setItem('vb-ya-like', 'si');
+      mostrarMensaje('VillaBeats agradece tu like ❤️');
+      for(let i=0;i<6;i++){
+        const c = document.createElement('div');
+        c.textContent = '❤️';
+        c.style.cssText = 'position:fixed;left:'+(50+Math.random()*20-10)+'%;top:70%;font-size:22px;pointer-events:none;z-index:99;transition:all 1s';
+        document.body.appendChild(c);
+        setTimeout(()=>{ c.style.top='50%'; c.style.opacity='0'; c.style.transform='translateY(-80px) scale(1.5)'; }, 50);
+        setTimeout(()=> c.remove(), 1100);
+      }
+    }
+    localStorage.setItem('vb-likes-num', likes);
+    pintar
