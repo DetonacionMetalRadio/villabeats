@@ -139,3 +139,170 @@
         <div class="vb-info">
           <div class="vb-kicker">Todos los días • Mediodía</div>
           <h3 class="vb-title">La Hora del Recuerdo</h3>
+          <p class="vb-sub"><b>12:00 PM – 2:00 PM</b> • VillaBeats</p>
+          <p class="vb-desc">Baladas y clásicos para acompañar tu almuerzo.</p>
+          <span class="vb-badge">🎶 JUAN GABRIEL • JOSÉ JOSÉ</span>
+        </div>
+      </div>
+      <div class="vb-slide kpop" data-start="840" data-end="960">
+        <span class="vb-live"><i></i> EN VIVO</span>
+        <div class="vb-icon">💜</div>
+        <div class="vb-info">
+          <div class="vb-kicker">Todos los días • Tarde</div>
+          <h3 class="vb-title">K-Pop Zone</h3>
+          <p class="vb-sub"><b>2:00 PM – 4:00 PM</b> • VillaBeats</p>
+          <p class="vb-desc">BTS, BLACKPINK, Stray Kids y NewJeans en tu radio.</p>
+          <span class="vb-badge">✨ ARMY • BLINK • STAY</span>
+        </div>
+      </div>
+      <div class="vb-slide navidad" data-start="960" data-end="1040">
+        <div class="vb-nieve"><i>❄</i><i>❄</i><i>❄</i><i>❄</i></div>
+        <span class="vb-live"><i></i> EN VIVO</span>
+        <div class="vb-icon">🎄</div>
+        <div class="vb-info">
+          <div class="vb-kicker">Todos los días • Temporada</div>
+          <h3 class="vb-title">La Tarde Navideña</h3>
+          <p class="vb-sub"><b>4:00 PM – 5:20 PM</b> • VillaBeats</p>
+          <p class="vb-desc">Villancicos y cumbia navideña para toda la familia.</p>
+          <span class="vb-badge">🎄 SOLO EN VILLABEATS</span>
+        </div>
+      </div>
+    </div>
+    <div class="vb-footer">
+      <div class="vb-progress"><div class="vb-progress-bar" id="vbBar"></div></div>
+      <p class="vb-next" id="vbNext">Cargando programación...</p>
+      <div class="vb-dots" id="vbDots"></div>
+    </div>
+  </div>
+
+  <div class="mensaje" id="mensaje"></div>
+  <div class="footer">© 2026 VillaBeats</div>
+<script>
+  // ===== BANNERS V38 - ARREGLADO, JEFE - AHORA SI SE MUEVE, JEFE =====
+  (function(){
+    var track = document.getElementById('vbTrack');
+    var bar = document.getElementById('vbBar');
+    var dotsBox = document.getElementById('vbDots');
+    var nextText = document.getElementById('vbNext');
+    if(!track || !bar || !dotsBox || !nextText) return;
+    var slides = track.children;
+    var total = slides.length;
+    var index = 0;
+    var TIEMPO = 4000;
+
+    function ahoraMinutos(){ var d = new Date(); return d.getHours()*60 + d.getMinutes(); }
+    function formato(min){ var h = Math.floor(min/60), m = min%60; var ap = h >= 12 ? 'PM' : 'AM'; h = h%12; if(h===0) h=12; return h + ':' + (m<10?'0'+m:m) + ' ' + ap; }
+
+    function actualizarTexto(){
+      var now = ahoraMinutos();
+      var vivoIdx = -1, proxIdx = -1;
+      for(var i=0;i<total;i++){
+        var s = parseInt(slides[i].getAttribute('data-start'));
+        var e = parseInt(slides[i].getAttribute('data-end'));
+        if(now >= s && now < e) vivoIdx = i;
+        if(s > now && proxIdx === -1) proxIdx = i;
+      }
+      for(var k=0;k<total;k++) slides[k].classList.remove('is-live');
+      if(vivoIdx !== -1){
+        slides[vivoIdx].classList.add('is-live');
+        var badge = slides[vivoIdx].querySelector('.vb-badge');
+        if(badge) badge.textContent = '● SONANDO AHORA EN VILLABEATS';
+        var tituloVivo = slides[vivoIdx].querySelector('.vb-title').textContent;
+        if(proxIdx !== -1){
+          var tituloProx = slides[proxIdx].querySelector('.vb-title').textContent;
+          var horaProx = formato(parseInt(slides[proxIdx].getAttribute('data-start')));
+          nextText.innerHTML = '🔴 Ahora: <b>' + tituloVivo + '</b> • Próximo: <b>' + tituloProx + '</b> • ' + horaProx;
+        } else {
+          nextText.innerHTML = '🔴 Ahora: <b>' + tituloVivo + '</b> • ¡Seguí escuchando VillaBeats!';
+        }
+        bar.style.background = '#00C853';
+      } else {
+        if(proxIdx === -1) proxIdx = 0;
+        var tituloProx2 = slides[proxIdx].querySelector('.vb-title').textContent;
+        var horaProx2 = formato(parseInt(slides[proxIdx].getAttribute('data-start')));
+        nextText.innerHTML = 'Próximo programa: <b>' + tituloProx2 + '</b> • ' + horaProx2;
+        bar.style.background = 'linear-gradient(90deg,#FFD700,#FF2B9D)';
+      }
+    }
+
+    dotsBox.innerHTML = '';
+    for(var i=0;i<total;i++){
+      (function(n){
+        var b = document.createElement('button');
+        b.className = 'vb-dot';
+        b.onclick = function(){ goTo(n); };
+        dotsBox.appendChild(b);
+      })(i);
+    }
+    var dots = dotsBox.children;
+
+    function goTo(n){
+      index = n;
+      // CORRECCIÓN JEFE: 100 / total = 25% por banner, jefe. Antes era 100%, jefe, por eso se iba al vacío, jefe.
+      var paso = 100 / total;
+      track.style.transform = 'translateX(-' + (index * paso) + '%)';
+      for(var d=0; d<total; d++) dots[d].classList.toggle('active', d===index);
+      bar.style.transition = 'none';
+      bar.style.width = '0%';
+      void bar.offsetWidth;
+      bar.style.transition = 'width ' + TIEMPO + 'ms linear';
+      bar.style.width = '100%';
+    }
+    function next(){ goTo((index+1)%total); }
+
+    actualizarTexto();
+    goTo(0);
+    // NUNCA SE DETIENE, JEFE. Aunque toques, jefe, sigue, jefe.
+    setInterval(next, TIEMPO);
+    setInterval(actualizarTexto, 30000);
+  })();
+
+  const mensajeEl = document.getElementById('mensaje');
+  let timerMensaje;
+  function mostrarMensaje(texto){
+    mensajeEl.textContent = texto;
+    mensajeEl.classList.add('mostrar');
+    clearTimeout(timerMensaje);
+    timerMensaje = setTimeout(()=>{ mensajeEl.classList.remove('mostrar'); }, 5000);
+  }
+  let likes = parseInt(localStorage.getItem('vb-likes-num') || '1249');
+  let yaDioLike = localStorage.getItem('vb-ya-like') === 'si';
+  const btnLike = document.getElementById('btn-like');
+  const numLikesEl = document.getElementById('num-likes');
+  const textoLike = document.getElementById('texto-like');
+  function pintarLike(){
+    numLikesEl.textContent = likes.toLocaleString('es-GT');
+    if(yaDioLike){ btnLike.classList.add('liked'); textoLike.textContent = '¡Te gusta!'; }
+    else { btnLike.classList.remove('liked'); textoLike.textContent = 'Me gusta'; }
+  }
+  function darLike(){
+    if(yaDioLike){
+      likes--; yaDioLike = false; localStorage.setItem('vb-ya-like', 'no');
+      mostrarMensaje('Has retirado tu like. VillaBeats espera verte pronto.');
+    } else {
+      likes++; yaDioLike = true; localStorage.setItem('vb-ya-like', 'si');
+      mostrarMensaje('VillaBeats agradece tu like ❤️');
+      for(let i=0;i<6;i++){
+        const c = document.createElement('div');
+        c.textContent = '❤️';
+        c.style.cssText = 'position:fixed;left:'+(50+Math.random()*20-10)+'%;top:70%;font-size:22px;pointer-events:none;z-index:99;transition:all 1s';
+        document.body.appendChild(c);
+        setTimeout(()=>{ c.style.top='50%'; c.style.opacity='0'; c.style.transform='translateY(-80px) scale(1.5)'; }, 50);
+        setTimeout(()=> c.remove(), 1100);
+      }
+    }
+    localStorage.setItem('vb-likes-num', likes);
+    pintarLike();
+  }
+  window.darLike = darLike;
+  pintarLike();
+  function seguirFacebook(){ mostrarMensaje('Gracias por seguirnos en VillaBeats 💙'); }
+  window.seguirFacebook = seguirFacebook;
+  const MI_PAGINA = 'https://villabeats.pages.dev';
+  async function compartir(){
+    const texto = '🔥 ¡Escuchá Villa Beats! La radio que te mueve 🎶 Villa Nueva, Guatemala ❤️ ' + MI_PAGINA;
+    mostrarMensaje('Gracias por compartir VillaBeats 🙏');
+    if(navigator.share){
+      try{ await navigator.share({title:'Villa Beats Radio', text:'¡Escuchá Villa Beats! La radio que te mueve 🎶', url: MI_PAGINA}); return; }catch(e){}
+    }
+    try{ await navigator.clipboard.writeText(MI_PAG
