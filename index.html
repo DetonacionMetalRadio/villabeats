@@ -45,29 +45,47 @@
   .btn-share{background:#fff;color:#14051f;box-shadow:0 5px 20px rgba(255,255,255,.25)}
   .contador-likes{width:100%;max-width:420px;text-align:center;margin-top:10px;font-size:13px;color:#d5c5e0}
   .contador-likes b{color:#FFDD00}
-  /* MENSAJE CORDIAL, JEFE - MAS BONITO */
   .mensaje{width:100%;max-width:420px;text-align:center;margin-top:12px;font-size:14px;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:10px 12px;border-radius:12px;min-height:20px;font-weight:700;line-height:1.4;opacity:0;transition:opacity .3s}
   .mensaje.mostrar{opacity:1}
   .footer{margin-top:auto;padding:30px 0 8px;color:#5a4a66;font-size:12px;text-align:center;letter-spacing:1px}
 
-  /* ===== BANNER TARDE NAVIDEÑA - ANIMADO - SOLO AGREGADO, JEFE ===== */
-  .banner-navidad{width:100%;max-width:420px;margin-top:14px;border-radius:12px;overflow:hidden;position:relative;text-align:center;background:linear-gradient(90deg,#8b0000,#b30000,#0a5c2e,#b30000,#8b0000);background-size:200% 200%;animation:banner-fondo 6s ease-in-out infinite;border:1px solid rgba(255,215,0,.5);box-shadow:0 0 20px rgba(255,0,0,.4);padding:10px 8px 8px}
+  /* ===== VILLABEATS - BANNERS INTELIGENTES POR HORA - JEFE ===== */
+  .vb-carousel{width:100%;max-width:420px;margin-top:14px;overflow:hidden;border-radius:12px;background:#1A0B2E;box-shadow:0 0 20px rgba(255,43,157,.25);position:relative}
+  .vb-track{display:flex;transition:transform .6s cubic-bezier(.22,1,.36,1);will-change:transform}
+  .vb-slide{min-width:100%;padding:16px 14px 14px;text-align:center;color:#fff;box-sizing:border-box;position:relative;overflow:hidden}
+  .vb-slide.vamonos{background:linear-gradient(135deg,#2A1450,#3A1A6B)}
+  .vb-slide.recuerdo{background:linear-gradient(135deg,#2B1A0E,#4A2A10)}
+  .vb-slide.kpop{background:linear-gradient(135deg,#2A0E2E,#4B1A5A)}
+  .vb-slide.navidad{background:linear-gradient(90deg,#8b0000,#b30000,#0a5c2e,#b30000,#8b0000);background-size:200% 200%;animation:banner-fondo 6s ease-in-out infinite}
   @keyframes banner-fondo{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-  .banner-luces{font-size:14px;letter-spacing:5px;line-height:1;animation:luces-parpadeo 1s infinite}
-  .banner-luces.abajo{animation-delay:.5s}
-  @keyframes luces-parpadeo{0%,100%{opacity:1;filter:brightness(1.3)}50%{opacity:.35;filter:brightness(.6)}}
-  .banner-titulo{color:#fff;font-size:21px;font-weight:900;letter-spacing:1px;margin:5px 0 2px;text-shadow:0 0 12px #FFD700, 0 0 20px #ff2b9d;line-height:1.1}
-  .banner-hora{color:#FFE696;font-size:13px;font-weight:900;letter-spacing:.3px}
-  .banner-sub{color:#fff;font-size:12px;font-weight:700;margin-top:2px}
-  .banner-nieve{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-  .banner-nieve i{position:absolute;top:-12px;color:#fff;font-style:normal;font-size:13px;opacity:.9;animation:cae-nieve 3.2s linear infinite}
-  .banner-nieve i:nth-child(1){left:6%;animation-delay:0s}
-  .banner-nieve i:nth-child(2){left:22%;animation-delay:.6s;font-size:11px}
-  .banner-nieve i:nth-child(3){left:40%;animation-delay:1.1s}
-  .banner-nieve i:nth-child(4){left:58%;animation-delay:.3s;font-size:11px}
-  .banner-nieve i:nth-child(5){left:76%;animation-delay:1.5s}
-  .banner-nieve i:nth-child(6){left:90%;animation-delay:.9s;font-size:11px}
+  .vb-live{position:absolute;top:10px;right:10px;background:#FF2D2D;color:#fff;font-size:10px;font-weight:900;padding:4px 8px;border-radius:20px;letter-spacing:.5px;display:none;align-items:center;gap:4px;z-index:2}
+  .vb-live i{width:7px;height:7px;background:#fff;border-radius:50%;display:inline-block;animation:vb-blink 1.2s infinite}
+  @keyframes vb-blink{0%,100%{opacity:1}50%{opacity:.2}}
+  .vb-slide.is-live .vb-live{display:inline-flex}
+  .vb-emoji{font-size:26px;display:block;margin-bottom:4px;animation:vb-float 3s ease-in-out infinite}
+  @keyframes vb-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .vb-title{font-size:21px;font-weight:900;letter-spacing:1px;margin:0;line-height:1.1;color:#FFD700;text-transform:uppercase;text-shadow:0 0 12px rgba(255,215,0,.4)}
+  .vb-slide.kpop .vb-title{color:#FF9FF3}
+  .vb-slide.recuerdo .vb-title{color:#FFE8A3}
+  .vb-sub{font-size:13px;font-weight:900;margin:6px 0 0;color:#FFE696}
+  .vb-desc{font-size:12px;margin:4px 0 0;color:#fff;opacity:.85;line-height:1.4;font-weight:700}
+  .vb-badge{display:inline-block;margin-top:9px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.5px;background:#FFD700;color:#1A0B2E}
+  .vb-slide.kpop .vb-badge{background:#FF9FF3}
+  .vb-slide.is-live .vb-badge{background:#00C853;color:#fff}
+  .vb-nieve{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .vb-nieve i{position:absolute;top:-12px;color:#fff;font-style:normal;font-size:12px;opacity:.9;animation:cae-nieve 3.2s linear infinite}
+  .vb-nieve i:nth-child(1){left:8%;animation-delay:0s}
+  .vb-nieve i:nth-child(2){left:30%;animation-delay:.6s}
+  .vb-nieve i:nth-child(3){left:55%;animation-delay:1.1s}
+  .vb-nieve i:nth-child(4){left:78%;animation-delay:.3s}
+  .vb-nieve i:nth-child(5){left:92%;animation-delay:1.5s}
   @keyframes cae-nieve{0%{transform:translateY(-10px) rotate(0deg);opacity:0}15%{opacity:1}100%{transform:translateY(110px) rotate(180deg);opacity:0}}
+  .vb-dots{display:flex;justify-content:center;gap:8px;padding:10px 0 10px;background:#140822}
+  .vb-dot{width:7px;height:7px;border-radius:50%;background:#ffffff33;border:0;cursor:pointer;transition:.3s;padding:0}
+  .vb-dot.active{width:22px;border-radius:10px;background:#FFD700}
+  .vb-progress{height:3px;background:#ffffff1a;overflow:hidden}
+  .vb-progress-bar{height:100%;width:0%;background:#FFD700;transition:width linear}
+  .vb-next{text-align:center;font-size:11px;color:#FFD700;background:#140822;padding:0 0 10px;margin:0;font-weight:700}
 </style>
 </head>
 <body>
@@ -90,116 +108,21 @@
   </div>
   <div class="contador-likes">A <b id="num-likes">1,249</b> personas les gusta Villa Beats ❤️</div>
 
-  <!-- ===== BANNER TARDE NAVIDEÑA - JUSTO AQUI, JEFE - NO TOCA NADA MAS ===== -->
-  <div class="banner-navidad">
-    <div class="banner-nieve"><i>❄</i><i>❄</i><i>❄</i><i>❄</i><i>❄</i><i>❄</i></div>
-    <div class="banner-luces">🔴 🟢 🟡 🔵 🟣 🔴 🟢 🟡</div>
-    <div class="banner-titulo">🎄 LA TARDE NAVIDEÑA 🎄</div>
-    <div class="banner-hora">Todos los días &nbsp; 4:00 PM - 5:20 PM &nbsp; • &nbsp; VillaBeats</div>
-    <div class="banner-sub">¡Falta 1 mes para Navidad!</div>
-    <div class="banner-luces abajo" style="margin-top:4px">🟢 🟡 🔵 🟣 🔴 🟢 🟡 🔵</div>
-  </div>
-  <!-- ===== FIN BANNER, JEFE ===== -->
-
-  <div class="mensaje" id="mensaje"></div>
-  <div class="footer">© 2026 VillaBeats</div>
-<script>
-  const destino = document.getElementById('destino-barra');
-  const logo = document.getElementById('mi-logo');
-  function subirBarra(){
-    const hijos = Array.from(document.body.children);
-    for(const el of hijos){
-      if(el === logo) continue;
-      if(el.classList.contains('marco-player')) continue;
-      if(el.tagName === 'SCRIPT') continue;
-      if(el.contains(logo) || el.contains(destino)) continue;
-      const cs = window.getComputedStyle(el);
-      if(cs.position === 'fixed'){
-        el.style.setProperty('position','relative','important');
-        el.style.setProperty('bottom','auto','important');
-        el.style.setProperty('left','auto','important');
-        el.style.setProperty('right','auto','important');
-        el.style.setProperty('top','auto','important');
-        el.style.setProperty('width','100%','important');
-        el.style.setProperty('transform','none','important');
-        destino.appendChild(el);
-        return true;
-      }
-    }
-    return false;
-  }
-  const timer = setInterval(()=>{ if(subirBarra()) clearInterval(timer); }, 400);
-  setTimeout(()=> clearInterval(timer), 12000);
-
-  // MENSAJES CORDIALES, JEFE
-  const mensajeEl = document.getElementById('mensaje');
-  let timerMensaje;
-  function mostrarMensaje(texto){
-    mensajeEl.textContent = texto;
-    mensajeEl.classList.add('mostrar');
-    clearTimeout(timerMensaje);
-    timerMensaje = setTimeout(()=>{ mensajeEl.classList.remove('mostrar'); }, 5000);
-  }
-
-  let likes = parseInt(localStorage.getItem('vb-likes-num') || '1249');
-  let yaDioLike = localStorage.getItem('vb-ya-like') === 'si';
-  const btnLike = document.getElementById('btn-like');
-  const numLikesEl = document.getElementById('num-likes');
-  const textoLike = document.getElementById('texto-like');
-  function pintarLike(){
-    numLikesEl.textContent = likes.toLocaleString('es-GT');
-    if(yaDioLike){ btnLike.classList.add('liked'); textoLike.textContent = '¡Te gusta!'; }
-    else { btnLike.classList.remove('liked'); textoLike.textContent = 'Me gusta'; }
-  }
-  function darLike(){
-    if(yaDioLike){
-      likes--; yaDioLike = false; localStorage.setItem('vb-ya-like', 'no');
-      mostrarMensaje('Has retirado tu like. VillaBeats espera verte pronto.');
-    } else {
-      likes++; yaDioLike = true; localStorage.setItem('vb-ya-like', 'si');
-      // MENSAJE CORDIAL, JEFE
-      mostrarMensaje('VillaBeats agradece tu like ❤️');
-      for(let i=0;i<6;i++){
-        const c = document.createElement('div');
-        c.textContent = '❤️';
-        c.style.cssText = 'position:fixed;left:'+(50+Math.random()*20-10)+'%;top:70%;font-size:22px;pointer-events:none;z-index:99;transition:all 1s';
-        document.body.appendChild(c);
-        setTimeout(()=>{ c.style.top='50%'; c.style.opacity='0'; c.style.transform='translateY(-80px) scale(1.5)'; }, 50);
-        setTimeout(()=> c.remove(), 1100);
-      }
-    }
-    localStorage.setItem('vb-likes-num', likes);
-    pintarLike();
-  }
-  window.darLike = darLike;
-  pintarLike();
-
-  // FACEBOOK, JEFE
-  function seguirFacebook(){
-    mostrarMensaje('Gracias por seguirnos en VillaBeats 💙');
-  }
-  window.seguirFacebook = seguirFacebook;
-
-  // COMPARTIR, JEFE
-  const MI_PAGINA = 'https://villabeats.pages.dev';
-  async function compartir(){
-    const texto = '🔥 ¡Escuchá Villa Beats! La radio que te mueve 🎶 Villa Nueva, Guatemala ❤️ ' + MI_PAGINA;
-    // MENSAJE CORDIAL DE UNA VEZ, JEFE
-    mostrarMensaje('Gracias por compartir VillaBeats 🙏');
-    if(navigator.share){
-      try{
-        await navigator.share({title:'Villa Beats Radio', text:'¡Escuchá Villa Beats! La radio que te mueve 🎶', url: MI_PAGINA});
-        return;
-      }catch(e){}
-    }
-    try{
-      await navigator.clipboard.writeText(MI_PAGINA);
-    }catch(e){
-      window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
-    }
-  }
-  window.compartir = compartir;
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=27').catch(()=>{}); }
-</script>
-</body>
-</html>
+  <!-- ===== BANNERS INTELIGENTES - JEFE - REEMPLAZA EL BANNER VIEJO ===== -->
+  <div class="vb-carousel" id="vbCarousel">
+    <div class="vb-track" id="vbTrack">
+      <div class="vb-slide vamonos" data-start="360" data-end="480">
+        <span class="vb-live"><i></i> EN VIVO AHORA</span>
+        <span class="vb-emoji">🐓☀️</span>
+        <h3 class="vb-title">Vámonos Pues Villa</h3>
+        <p class="vb-sub">Lunes a Sábado • 6:00 AM – 8:00 AM</p>
+        <p class="vb-desc">Cumbia, banda y rancheras para despertar con ganas.<br>¡Vamos pues, que ya es hora!</p>
+        <span class="vb-badge">🔴 EN LA MAÑANA</span>
+      </div>
+      <div class="vb-slide recuerdo" data-start="720" data-end="840">
+        <span class="vb-live"><i></i> EN VIVO AHORA</span>
+        <span class="vb-emoji">🎶❤️</span>
+        <h3 class="vb-title">La Hora del Recuerdo</h3>
+        <p class="vb-sub">Todos los días • 12:00 PM – 2:00 PM</p>
+        <p class="vb-desc">Baladas y clásicos para comer rico.<br>Juan Gabriel, José José, Ana Gabriel y más.</p>
+        
