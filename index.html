@@ -31,13 +31,13 @@
   .ecualizador span:nth-child(7){height:40%;animation-delay:0.2s}
   @keyframes baila{0%,100%{transform:scaleY(0.4)}50%{transform:scaleY(1)}}
 
-  /* CUADRO LIMPIO, JEFE */
+  /* CUADRO COMO ANTES, JEFE */
   .marco-player{width:100%;max-width:420px;padding:4px;border-radius:18px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);background-size:200% 200%;animation:destello 3s linear infinite;box-shadow:0 0 35px rgba(255,43,157,.55), 0 0 60px rgba(0,229,255,.35);position:relative;z-index:20}
   .marco-player::before{content:"✦ ✧ ✨ ✦ ✧";position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:18px;letter-spacing:18px;color:#FFDD00;text-shadow:0 0 10px #FFDD00, 0 0 20px #ff2b9d;animation:parpadea 1.2s infinite;pointer-events:none;z-index:3}
   @keyframes parpadea{0%,100%{opacity:1}50%{opacity:.3}}
-  .marco-player-inner{background:#161616;border-radius:14px;overflow:hidden;min-height:120px}
-  /* LA TARJETA SE QUEDA ADENTRO, JEFE */
-  .marco-player-inner > div, .marco-player-inner iframe{width:100% !important;max-width:100% !important;display:block}
+  .marco-player-inner{background:#161616;border-radius:14px;overflow:hidden;min-height:76px;display:flex;align-items:center;justify-content:center}
+  /* AMARRE PARA LA BARRA DE ANTES, JEFE */
+  #destino-barra, #destino-barra *, #destino-barra iframe, #destino-barra div{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;max-width:100% !important;transform:none !important;float:none !important}
 
   .botones{width:100%;max-width:420px;display:flex;gap:10px;margin-top:22px}
   .btn{flex:1;border:none;border-radius:50px;padding:14px 6px;font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .15s;text-decoration:none;text-align:center}
@@ -111,11 +111,10 @@
   <p class="sub">La radio que te mueve • Villa Nueva, Guatemala</p>
   <div class="ecualizador"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 
-  <!-- 👇 AQUÍ VA TU TARJETA, JEFE. LIMPIA, JEFE. EN EL CUADRO, JEFE. -->
+  <!-- BARRA DE ANTES, JEFE, EN EL CUADRO, JEFE -->
   <div class="marco-player">
-    <div class="marco-player-inner">
-      <div data-radio="villa-beats" data-tipo="tarjeta"></div>
-      <script src="https://sonocaster.com/recursos/widget.js" async></script>
+    <div class="marco-player-inner" id="destino-barra">
+      <script src="https://sonocaster.com/recursos/widget.js" data-radio="villa-beats" data-tipo="barra" async></script>
     </div>
   </div>
 
@@ -134,4 +133,143 @@
         <div class="vb-info">
           <div class="vb-kicker">Lunes a Sábado • Mañana</div>
           <h3 class="vb-title">Vámonos Pues Villa</h3>
-          <p class="vb-sub"><b>6:00 AM – 8:00 AM</b> • VillaBeats</p
+          <p class="vb-sub"><b>6:00 AM – 8:00 AM</b> • VillaBeats</p>
+          <p class="vb-desc">Cumbia, banda y rancheras para empezar el día con energía.</p>
+          <span class="vb-badge">☀️ DESPIERTA CON VILLABEATS</span>
+        </div>
+      </div>
+      <div class="vb-slide recuerdo" data-start="720" data-end="840">
+        <span class="vb-live"><i></i> EN VIVO</span>
+        <div class="vb-icon">🎙️</div>
+        <div class="vb-info">
+          <div class="vb-kicker">Todos los días • Mediodía</div>
+          <h3 class="vb-title">La Hora del Recuerdo</h3>
+          <p class="vb-sub"><b>12:00 PM – 2:00 PM</b> • VillaBeats</p>
+          <p class="vb-desc">Baladas y clásicos para acompañar tu almuerzo.</p>
+          <span class="vb-badge">🎶 JUAN GABRIEL • JOSÉ JOSÉ</span>
+        </div>
+      </div>
+      <div class="vb-slide kpop" data-start="840" data-end="960">
+        <span class="vb-live"><i></i> EN VIVO</span>
+        <div class="vb-icon">💜</div>
+        <div class="vb-info">
+          <div class="vb-kicker">Todos los días • Tarde</div>
+          <h3 class="vb-title">K-Pop Zone</h3>
+          <p class="vb-sub"><b>2:00 PM – 4:00 PM</b> • VillaBeats</p>
+          <p class="vb-desc">BTS, BLACKPINK, Stray Kids y NewJeans en tu radio.</p>
+          <span class="vb-badge">✨ ARMY • BLINK • STAY</span>
+        </div>
+      </div>
+      <div class="vb-slide navidad" data-start="960" data-end="1040">
+        <div class="vb-nieve"><i>❄</i><i>❄</i><i>❄</i><i>❄</i></div>
+        <span class="vb-live"><i></i> EN VIVO</span>
+        <div class="vb-icon">🎄</div>
+        <div class="vb-info">
+          <div class="vb-kicker">Todos los días • Temporada</div>
+          <h3 class="vb-title">La Tarde Navideña</h3>
+          <p class="vb-sub"><b>4:00 PM – 5:20 PM</b> • VillaBeats</p>
+          <p class="vb-desc">Villancicos y cumbia navideña para toda la familia.</p>
+          <span class="vb-badge">🎄 SOLO EN VILLABEATS</span>
+        </div>
+      </div>
+    </div>
+    <div class="vb-footer">
+      <div class="vb-progress"><div class="vb-progress-bar" id="vbBar"></div></div>
+      <p class="vb-next" id="vbNext">Cargando programación...</p>
+      <div class="vb-dots" id="vbDots"></div>
+    </div>
+  </div>
+
+  <div class="mensaje" id="mensaje"></div>
+  <div class="footer">© 2026 VillaBeats</div>
+<script>
+  // ===== AMARRE PARA LA BARRA DE ANTES, JEFE =====
+  const destino = document.getElementById('destino-barra');
+  const logo = document.getElementById('mi-logo');
+  function amarrar(el){
+    if(!el || el.nodeType !== 1) return;
+    el.style.setProperty('position','relative','important');
+    el.style.setProperty('bottom','auto','important');
+    el.style.setProperty('left','auto','important');
+    el.style.setProperty('right','auto','important');
+    el.style.setProperty('top','auto','important');
+    el.style.setProperty('width','100%','important');
+    el.style.setProperty('max-width','100%','important');
+    el.style.setProperty('transform','none','important');
+    el.style.setProperty('margin','0','important');
+    el.style.setProperty('z-index','5','important');
+  }
+  function subirBarra(){
+    // Si ya está adentro, jefe, lo re-amarramos
+    destino.querySelectorAll(':scope > *').forEach(el => { if(el.tagName !== 'SCRIPT') amarrar(el); });
+    // Busca lo que esté fixed abajo, jefe
+    const todos = document.querySelectorAll('body *');
+    for(const el of todos){
+      if(destino.contains(el)) continue;
+      if(logo.contains(el)) continue;
+      if(el.closest && el.closest('.vb-carousel')) continue;
+      if(el.closest && el.closest('.marco-player')) continue;
+      if(el.textContent.trim() === '❤️' && el.style.position === 'fixed') continue;
+      let cs; try{ cs = window.getComputedStyle(el); }catch(e){ continue; }
+      if(cs.position !== 'fixed' && cs.position !== 'absolute' && cs.position !== 'sticky') continue;
+      if(el.querySelector && el.querySelector('.vb-slide')) continue;
+      let arriba = el;
+      while(arriba.parentElement && arriba.parentElement !== document.body){
+        arriba = arriba.parentElement;
+        if(destino.contains(arriba)) break;
+      }
+      if(arriba === logo) continue;
+      if(arriba.classList && arriba.classList.contains('vb-carousel')) continue;
+      if(arriba.classList && arriba.classList.contains('marco-player')) continue;
+      amarrar(arriba);
+      try{ destino.appendChild(arriba); }catch(e){}
+      return true;
+    }
+    return false;
+  }
+  setInterval(subirBarra, 200);
+  const obs = new MutationObserver(()=>{ subirBarra(); });
+  obs.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style','class'] });
+  document.addEventListener('click', ()=>{ setTimeout(subirBarra, 100); setTimeout(subirBarra, 500); setTimeout(subirBarra, 1500); });
+
+  // ===== BANNERS, JEFE =====
+  (function(){
+    const track = document.getElementById('vbTrack');
+    const bar = document.getElementById('vbBar');
+    const dotsBox = document.getElementById('vbDots');
+    const nextText = document.getElementById('vbNext');
+    if(!track) return;
+    const slides = Array.from(track.children);
+    const total = slides.length;
+    let index = 0, timerB = null, modoVivo = false;
+    const TIEMPO = 6000;
+    function ahoraMinutos(){ const d = new Date(); return d.getHours()*60 + d.getMinutes(); }
+    function formato(min){ let h = Math.floor(min/60), m = min%60; let ap = h >= 12 ? 'PM' : 'AM'; h = h%12; if(h===0) h=12; return h + ':' + (m<10?'0'+m:m) + ' ' + ap; }
+    function programaActual(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); const e = parseInt(slides[i].dataset.end); if(now >= s && now < e) return i; } return -1; }
+    function proximoPrograma(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); if(s > now) return slides[i]; } return slides[0]; }
+    for(let i=0;i<total;i++){ const b = document.createElement('button'); b.className = 'vb-dot'; b.setAttribute('aria-label','Banner '+(i+1)); b.onclick = ()=>{ goTo(i); if(!modoVivo) restart(); }; dotsBox.appendChild(b); }
+    const dots = dotsBox.children;
+    function goTo(i){ index = i; track.style.transform = `translateX(-${index*100}%)`; for(let d=0; d<total; d++) dots[d].classList.toggle('active', d===index); bar.style.transition = 'none'; bar.style.width = '0%'; requestAnimationFrame(()=>{ if(!modoVivo){ bar.style.transition = `width ${TIEMPO}ms linear`; bar.style.width = '100%'; } else { bar.style.width = '100%'; } }); }
+    function next(){ goTo((index+1)%total); }
+    function restart(){ clearInterval(timerB); timerB = setInterval(next, TIEMPO); }
+    function detener(){ clearInterval(timerB); timerB = null; }
+    function actualizarPorHora(){
+      const vivo = programaActual();
+      slides.forEach(s => s.classList.remove('is-live'));
+      if(vivo !== -1){
+        modoVivo = true; detener();
+        slides[vivo].classList.add('is-live');
+        const badge = slides[vivo].querySelector('.vb-badge');
+        if(badge) badge.textContent = '● SONANDO AHORA EN VILLABEATS';
+        goTo(vivo);
+        nextText.innerHTML = '🔴 Estás escuchando <b>este programa</b> ahora mismo';
+        bar.style.background = '#00C853';
+      } else {
+        modoVivo = false; bar.style.background = 'linear-gradient(90deg,#FFD700,#FF2B9D)';
+        const prox = proximoPrograma();
+        const titulo = prox.querySelector('.vb-title').textContent;
+        const hora = formato(parseInt(prox.dataset.start));
+        nextText.innerHTML = 'Próximo programa: <b>' + titulo + '</b> • ' + hora;
+        if(!timerB) restart();
+        goTo(slides.indexOf(prox));
+    
