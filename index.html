@@ -35,6 +35,8 @@
   @keyframes parpadea{0%,100%{opacity:1}50%{opacity:.3}}
   .marco-player-inner{background:#161616;border-radius:14px;overflow:hidden;min-height:76px;display:flex;align-items:center;justify-content:center}
   .marco-player-inner > *{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;max-width:100% !important;transform:none !important}
+  /* JEFE: ESTO ES LO NUEVO, JEFE. Aunque Sonocaster lo quiera bajar, jefe, el CSS lo obliga a quedarse en su cuadrado, jefe */
+  #destino-barra iframe, #destino-barra audio, #destino-barra div, #destino-barra section{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;max-width:100% !important;transform:none !important}
   .botones{width:100%;max-width:420px;display:flex;gap:10px;margin-top:22px}
   .btn{flex:1;border:none;border-radius:50px;padding:14px 6px;font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .15s;text-decoration:none;text-align:center}
   .btn:active{transform:scale(.95)}
@@ -120,7 +122,6 @@
   </div>
   <div class="contador-likes">A <b id="num-likes">1,249</b> personas les gusta Villa Beats ❤️</div>
 
-  <!-- ===== BANNERS PROFESIONALES - JEFE ===== -->
   <div class="vb-carousel" id="vbCarousel">
     <div class="vb-track" id="vbTrack">
       <div class="vb-slide vamonos" data-start="360" data-end="480">
@@ -175,7 +176,6 @@
       <div class="vb-dots" id="vbDots"></div>
     </div>
   </div>
-  <!-- ===== FIN BANNERS PROFESIONALES, JEFE ===== -->
 
   <div class="mensaje" id="mensaje"></div>
   <div class="footer">© 2026 VillaBeats</div>
@@ -183,58 +183,84 @@
   const destino = document.getElementById('destino-barra');
   const logo = document.getElementById('mi-logo');
 
-  // ===== REPRODUCTOR EN SU CUADRADO - V30 - NO SE BAJA, JEFE =====
+  // ===== REPRODUCTOR EN SU CUADRADO - V31 - CAZADOR BRAVO, JEFE =====
+  function esCorazon(el){ return el.textContent.trim() === '❤️' && el.style.position === 'fixed'; }
+  function esDelPlayer(el){
+    if(!el || el.nodeType !== 1) return false;
+    const txt = (el.className || '').toString().toLowerCase() + ' ' + (el.id || '').toLowerCase();
+    return txt.includes('sonocaster') || txt.includes('player') || txt.includes('radio') || txt.includes('sc-') || el.tagName === 'IFRAME' || el.tagName === 'AUDIO';
+  }
   function subirBarra(){
-    // Si ya está adentro, jefe, no lo tocamos
-    if(destino.querySelector('iframe, audio, [class*="sonocaster"], [id*="sonocaster"]')) return true;
-    const hijos = Array.from(document.body.children);
-    for(const el of hijos){
+    // 1. Si ya está adentro, jefe, no lo tocamos
+    if(destino.querySelector('iframe, audio')) return true;
+
+    // 2. Busca en TODA la página, jefe, no solo en los hijos del body
+    const todos = document.querySelectorAll('body *');
+    for(const el of todos){
+      if(destino.contains(el)) continue;
+      if(logo.contains(el)) continue;
+      if(esCorazon(el)) continue;
+      if(el.classList && el.classList.contains('vb-carousel')) continue;
+      if(el.closest && el.closest('.vb-carousel')) continue;
+      if(el.closest && el.closest('.marco-player')) continue;
+      if(!esDelPlayer(el)) continue;
+
+      // Sube hasta el hijo directo del body, jefe, ese es el que se bajó
+      let arriba = el;
+      while(arriba.parentElement && arriba.parentElement !== document.body){
+        arriba = arriba.parentElement;
+        if(destino.contains(arriba)) return true;
+      }
+      if(arriba === logo) continue;
+      if(arriba.classList && arriba.classList.contains('vb-carousel')) continue;
+      if(arriba.classList && arriba.classList.contains('marco-player')) continue;
+
+      // Lo mete al cuadrado, jefe, y lo obliga con CSS
+      arriba.style.setProperty('position','relative','important');
+      arriba.style.setProperty('bottom','auto','important');
+      arriba.style.setProperty('left','auto','important');
+      arriba.style.setProperty('right','auto','important');
+      arriba.style.setProperty('top','auto','important');
+      arriba.style.setProperty('width','100%','important');
+      arriba.style.setProperty('max-width','100%','important');
+      arriba.style.setProperty('transform','none','important');
+      arriba.style.setProperty('z-index','5','important');
+      arriba.style.setProperty('margin','0','important');
+      destino.appendChild(arriba);
+      return true;
+    }
+
+    // 3. Plan B, jefe: si hay algo fixed abajo, jefe, también lo sube
+    for(const el of Array.from(document.body.children)){
       if(el === logo) continue;
       if(el.classList.contains('marco-player')) continue;
       if(el.classList.contains('vb-carousel')) continue;
       if(el.tagName === 'SCRIPT') continue;
-      if(el.contains(logo) || el.contains(destino)) continue;
-      // No tocar los corazones del like, jefe
-      if(el.textContent === '❤️' && el.style.position === 'fixed') continue;
+      if(esCorazon(el)) continue;
       const cs = window.getComputedStyle(el);
-      // Caza fixed, absolute y sticky, jefe
       if(cs.position === 'fixed' || cs.position === 'absolute' || cs.position === 'sticky'){
+        // Pero si es un banner, jefe, no lo tocamos
+        if(el.querySelector && el.querySelector('.vb-slide')) continue;
         el.style.setProperty('position','relative','important');
         el.style.setProperty('bottom','auto','important');
         el.style.setProperty('left','auto','important');
         el.style.setProperty('right','auto','important');
         el.style.setProperty('top','auto','important');
         el.style.setProperty('width','100%','important');
-        el.style.setProperty('max-width','100%','important');
         el.style.setProperty('transform','none','important');
-        el.style.setProperty('z-index','5','important');
         el.style.setProperty('margin','0','important');
-        destino.appendChild(el);
-        return true;
-      }
-      // Si viene dentro de un div, jefe, también lo agarra
-      const adentro = el.querySelector('iframe, audio, [class*="sonocaster"], [id*="sonocaster"], [class*="player"]');
-      if(adentro){
-        el.style.setProperty('position','relative','important');
-        el.style.setProperty('bottom','auto','important');
-        el.style.setProperty('left','auto','important');
-        el.style.setProperty('right','auto','important');
-        el.style.setProperty('top','auto','important');
-        el.style.setProperty('width','100%','important');
-        el.style.setProperty('transform','none','important');
         destino.appendChild(el);
         return true;
       }
     }
     return false;
   }
-  // Lo busca siempre, jefe, no solo 12 segundos
-  setInterval(subirBarra, 400);
-  // Observador: en cuanto Sonocaster lo crea, jefe, lo sube al cuadrado
+  // Lo busca SIEMPRE, jefe, cada 300ms, aunque le des play y se quiera bajar, jefe
+  setInterval(subirBarra, 300);
   const observador = new MutationObserver(()=>{ subirBarra(); });
-  observador.observe(document.body, { childList: true, subtree: true });
-  // Cuando le das play, jefe, también lo vuelve a subir
-  document.addEventListener('click', ()=>{ setTimeout(subirBarra, 500); setTimeout(subirBarra, 2000); });
+  observador.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style','class'] });
+  document.addEventListener('click', ()=>{ setTimeout(subirBarra, 300); setTimeout(subirBarra, 1000); setTimeout(subirBarra, 2000); });
+  document.addEventListener('play', ()=>{ setTimeout(subirBarra, 300); }, true);
 
   // ===== BANNERS PROFESIONALES - LOGICA POR HORA, JEFE =====
   (function(){
@@ -249,24 +275,4 @@
     const TIEMPO = 6000;
     function ahoraMinutos(){ const d = new Date(); return d.getHours()*60 + d.getMinutes(); }
     function formato(min){ let h = Math.floor(min/60), m = min%60; let ap = h >= 12 ? 'PM' : 'AM'; h = h%12; if(h===0) h=12; return h + ':' + (m<10?'0'+m:m) + ' ' + ap; }
-    function programaActual(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); const e = parseInt(slides[i].dataset.end); if(now >= s && now < e) return i; } return -1; }
-    function proximoPrograma(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); if(s > now) return slides[i]; } return slides[0]; }
-    for(let i=0;i<total;i++){ const b = document.createElement('button'); b.className = 'vb-dot'; b.setAttribute('aria-label','Banner '+(i+1)); b.onclick = ()=>{ goTo(i); if(!modoVivo) restart(); }; dotsBox.appendChild(b); }
-    const dots = dotsBox.children;
-    function goTo(i){ index = i; track.style.transform = `translateX(-${index*100}%)`; for(let d=0; d<total; d++) dots[d].classList.toggle('active', d===index); bar.style.transition = 'none'; bar.style.width = '0%'; requestAnimationFrame(()=>{ if(!modoVivo){ bar.style.transition = `width ${TIEMPO}ms linear`; bar.style.width = '100%'; } else { bar.style.width = '100%'; } }); }
-    function next(){ goTo((index+1)%total); }
-    function restart(){ clearInterval(timerB); timerB = setInterval(next, TIEMPO); }
-    function detener(){ clearInterval(timerB); timerB = null; }
-    function actualizarPorHora(){
-      const vivo = programaActual();
-      slides.forEach(s => s.classList.remove('is-live'));
-      if(vivo !== -1){
-        modoVivo = true; detener();
-        slides[vivo].classList.add('is-live');
-        const badge = slides[vivo].querySelector('.vb-badge');
-        if(badge) badge.textContent = '● SONANDO AHORA EN VILLABEATS';
-        goTo(vivo);
-        nextText.innerHTML = '🔴 Estás escuchando <b>este programa</b> ahora mismo';
-        bar.style.background = '#00C853';
-      } else {
-        modoVivo = false; bar.style.background = 'linear-gradient(90d
+    function programaActual(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); const e = parseInt(slides[i].dataset.end); if(now >= s && n
