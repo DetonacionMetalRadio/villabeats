@@ -1,5 +1,5 @@
-// VillaBeats - SW v31 - Sí actualiza + Reproductor en su cuadrado
-const CACHE = 'villabeats-v31';
+// VillaBeats - SW v32 - Sí actualiza
+const CACHE = 'villabeats-v32';
 const FILES = [
   './',
   './index.html',
