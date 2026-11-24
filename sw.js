@@ -1,5 +1,5 @@
-// VillaBeats - SW v34 - Tarjeta en el cuadro
-const CACHE = 'villabeats-v34';
+// VillaBeats - SW v35 - Barra de antes en el cuadro
+const CACHE = 'villabeats-v35';
 const FILES = ['./','./index.html','./manifest.json','./logo.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
