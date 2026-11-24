@@ -1,6 +1,6 @@
-// VillaBeats - SW v35 - Barra de antes en el cuadro
-const CACHE = 'villabeats-v35';
-const FILES = ['./','./index.html','./manifest.json','./logo.png'];
+// VillaBeats - SW v36 - Barra en su ventanita
+const CACHE = 'villabeats-v36';
+const FILES = ['./','./index.html','./player.html','./manifest.json','./logo.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
 });
@@ -11,14 +11,14 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (url.hostname.includes('sonocaster.com')) return e.respondWith(fetch(e.request));
   if (url.pathname.includes('sw.js')) return e.respondWith(fetch(e.request));
-  if (url.pathname.endsWith('/') || url.pathname.endsWith('index.html')) {
+  if (url.pathname.endsWith('/') || url.pathname.endsWith('index.html') || url.pathname.endsWith('player.html')) {
     return e.respondWith(fetch(e.request).then((net) => {
       if (e.request.method === 'GET' && url.origin === location.origin) {
         const copy = net.clone();
         caches.open(CACHE).then((c) => c.put(e.request, copy));
       }
       return net;
-    }).catch(() => caches.match('./index.html')));
+    }).catch(() => caches.match(e.request)));
   }
   e.respondWith(caches.match(e.request).then((res) => {
     return res || fetch(e.request).then((net) => {
