@@ -1,5 +1,5 @@
-// VillaBeats - SW v37
-const CACHE = 'villabeats-v37';
+// VillaBeats - SW v38
+const CACHE = 'villabeats-v38';
 const FILES = ['./','./index.html','./player.html','./manifest.json','./logo.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
