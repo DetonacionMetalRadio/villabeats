@@ -1,5 +1,5 @@
-// VillaBeats - SW v40 - No guarda index.html viejo, jefe
-const CACHE = 'villabeats-v40';
+// VillaBeats - SW v43 - No guarda index.html viejo, jefe
+const CACHE = 'villabeats-v43';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
@@ -16,7 +16,6 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // Siempre de internet, jefe. Nada de caché viejo, jefe.
   e.respondWith(
     fetch(e.request).catch(() => caches.match(e.request))
   );
