@@ -1,54 +1,32 @@
-// VillaBeats - SW v32 - Sí actualiza
-const CACHE = 'villabeats-v32';
-const FILES = [
-  './',
-  './index.html',
-  './manifest.json',
-  './logo.png'
-];
-
+// VillaBeats - SW v34 - Tarjeta en el cuadro
+const CACHE = 'villabeats-v34';
+const FILES = ['./','./index.html','./manifest.json','./logo.png'];
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting())
-  );
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
 });
-
 self.addEventListener('activate', (e) => {
-  e.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.map((k) => (k !== CACHE ? caches.delete(k) : null)))
-    ).then(() => self.clients.claim())
-  );
+  e.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((k) => (k !== CACHE ? caches.delete(k) : null)))).then(() => self.clients.claim()));
 });
-
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
-  if (url.hostname.includes('sonocaster.com')) {
-    return e.respondWith(fetch(e.request));
-  }
-  if (url.pathname.includes('sw.js')) {
-    return e.respondWith(fetch(e.request));
-  }
+  if (url.hostname.includes('sonocaster.com')) return e.respondWith(fetch(e.request));
+  if (url.pathname.includes('sw.js')) return e.respondWith(fetch(e.request));
   if (url.pathname.endsWith('/') || url.pathname.endsWith('index.html')) {
-    return e.respondWith(
-      fetch(e.request).then((net) => {
-        if (e.request.method === 'GET' && url.origin === location.origin) {
-          const copy = net.clone();
-          caches.open(CACHE).then((c) => c.put(e.request, copy));
-        }
-        return net;
-      }).catch(() => caches.match('./index.html'))
-    );
+    return e.respondWith(fetch(e.request).then((net) => {
+      if (e.request.method === 'GET' && url.origin === location.origin) {
+        const copy = net.clone();
+        caches.open(CACHE).then((c) => c.put(e.request, copy));
+      }
+      return net;
+    }).catch(() => caches.match('./index.html')));
   }
-  e.respondWith(
-    caches.match(e.request).then((res) => {
-      return res || fetch(e.request).then((net) => {
-        if (e.request.method === 'GET' && url.origin === location.origin) {
-          const copy = net.clone();
-          caches.open(CACHE).then((c) => c.put(e.request, copy));
-        }
-        return net;
-      }).catch(() => caches.match('./index.html'));
-    })
-  );
+  e.respondWith(caches.match(e.request).then((res) => {
+    return res || fetch(e.request).then((net) => {
+      if (e.request.method === 'GET' && url.origin === location.origin) {
+        const copy = net.clone();
+        caches.open(CACHE).then((c) => c.put(e.request, copy));
+      }
+      return net;
+    }).catch(() => caches.match('./index.html'));
+  }));
 });
