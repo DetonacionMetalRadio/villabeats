@@ -35,8 +35,8 @@
   @keyframes parpadea{0%,100%{opacity:1}50%{opacity:.3}}
   .marco-player-inner{background:#161616;border-radius:14px;overflow:hidden;min-height:76px;display:flex;align-items:center;justify-content:center}
   .marco-player-inner > *{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;max-width:100% !important;transform:none !important}
-  /* JEFE: ESTO ES LO NUEVO, JEFE. Aunque Sonocaster lo quiera bajar, jefe, el CSS lo obliga a quedarse en su cuadrado, jefe */
-  #destino-barra iframe, #destino-barra audio, #destino-barra div, #destino-barra section{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;max-width:100% !important;transform:none !important}
+  /* CANDADO, JEFE: lo que esté adentro del cuadrado, jefe, ya no se puede bajar, jefe */
+  #destino-barra *, #destino-barra iframe, #destino-barra div{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;max-width:100% !important;transform:none !important}
   .botones{width:100%;max-width:420px;display:flex;gap:10px;margin-top:22px}
   .btn{flex:1;border:none;border-radius:50px;padding:14px 6px;font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .15s;text-decoration:none;text-align:center}
   .btn:active{transform:scale(.95)}
@@ -50,8 +50,6 @@
   .mensaje{width:100%;max-width:420px;text-align:center;margin-top:12px;font-size:14px;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:10px 12px;border-radius:12px;min-height:20px;font-weight:700;line-height:1.4;opacity:0;transition:opacity .3s}
   .mensaje.mostrar{opacity:1}
   .footer{margin-top:auto;padding:30px 0 8px;color:#5a4a66;font-size:12px;text-align:center;letter-spacing:1px}
-
-  /* ===== BANNERS PROFESIONALES VILLABEATS - ACORDES A LA APP, JEFE ===== */
   .vb-carousel{width:100%;max-width:420px;margin-top:14px;border-radius:16px;overflow:hidden;background:#1A0B2E;border:1px solid rgba(255,255,255,.10);box-shadow:0 10px 30px rgba(0,0,0,.45);position:relative}
   .vb-track{display:flex;transition:transform .6s cubic-bezier(.22,1,.36,1);will-change:transform}
   .vb-slide{min-width:100%;box-sizing:border-box;position:relative;overflow:hidden;padding:18px 16px 16px;display:flex;gap:14px;align-items:center;text-align:left;background:#1A0B2E}
@@ -121,7 +119,6 @@
     <button class="btn btn-share" onclick="compartir()">↗️ Compartir</button>
   </div>
   <div class="contador-likes">A <b id="num-likes">1,249</b> personas les gusta Villa Beats ❤️</div>
-
   <div class="vb-carousel" id="vbCarousel">
     <div class="vb-track" id="vbTrack">
       <div class="vb-slide vamonos" data-start="360" data-end="480">
@@ -176,77 +173,39 @@
       <div class="vb-dots" id="vbDots"></div>
     </div>
   </div>
-
   <div class="mensaje" id="mensaje"></div>
   <div class="footer">© 2026 VillaBeats</div>
 <script>
   const destino = document.getElementById('destino-barra');
   const logo = document.getElementById('mi-logo');
 
-  // ===== REPRODUCTOR EN SU CUADRADO - V31 - CAZADOR BRAVO, JEFE =====
-  function esCorazon(el){ return el.textContent.trim() === '❤️' && el.style.position === 'fixed'; }
-  function esDelPlayer(el){
-    if(!el || el.nodeType !== 1) return false;
-    const txt = (el.className || '').toString().toLowerCase() + ' ' + (el.id || '').toLowerCase();
-    return txt.includes('sonocaster') || txt.includes('player') || txt.includes('radio') || txt.includes('sc-') || el.tagName === 'IFRAME' || el.tagName === 'AUDIO';
-  }
+  // ===== ESTE ES EL JAVASCRIPT DE AYER QUE SÍ FUNCIONABA, JEFE =====
+  // Ayer lo dejé solo 12 segundos, jefe. Hoy lo dejo PARA SIEMPRE, jefe.
   function subirBarra(){
-    // 1. Si ya está adentro, jefe, no lo tocamos
-    if(destino.querySelector('iframe, audio')) return true;
-
-    // 2. Busca en TODA la página, jefe, no solo en los hijos del body
-    const todos = document.querySelectorAll('body *');
-    for(const el of todos){
-      if(destino.contains(el)) continue;
-      if(logo.contains(el)) continue;
-      if(esCorazon(el)) continue;
-      if(el.classList && el.classList.contains('vb-carousel')) continue;
-      if(el.closest && el.closest('.vb-carousel')) continue;
-      if(el.closest && el.closest('.marco-player')) continue;
-      if(!esDelPlayer(el)) continue;
-
-      // Sube hasta el hijo directo del body, jefe, ese es el que se bajó
-      let arriba = el;
-      while(arriba.parentElement && arriba.parentElement !== document.body){
-        arriba = arriba.parentElement;
-        if(destino.contains(arriba)) return true;
-      }
-      if(arriba === logo) continue;
-      if(arriba.classList && arriba.classList.contains('vb-carousel')) continue;
-      if(arriba.classList && arriba.classList.contains('marco-player')) continue;
-
-      // Lo mete al cuadrado, jefe, y lo obliga con CSS
-      arriba.style.setProperty('position','relative','important');
-      arriba.style.setProperty('bottom','auto','important');
-      arriba.style.setProperty('left','auto','important');
-      arriba.style.setProperty('right','auto','important');
-      arriba.style.setProperty('top','auto','important');
-      arriba.style.setProperty('width','100%','important');
-      arriba.style.setProperty('max-width','100%','important');
-      arriba.style.setProperty('transform','none','important');
-      arriba.style.setProperty('z-index','5','important');
-      arriba.style.setProperty('margin','0','important');
-      destino.appendChild(arriba);
-      return true;
+    // Si ya está adentro, jefe, ya no lo movemos
+    if(destino.querySelector('iframe, audio, div')) {
+      // Pero revisamos que no se haya vuelto a bajar, jefe
+      const adentro = destino.querySelector('div');
+      if(adentro) return true;
     }
-
-    // 3. Plan B, jefe: si hay algo fixed abajo, jefe, también lo sube
-    for(const el of Array.from(document.body.children)){
+    const hijos = Array.from(document.body.children);
+    for(const el of hijos){
       if(el === logo) continue;
       if(el.classList.contains('marco-player')) continue;
       if(el.classList.contains('vb-carousel')) continue;
       if(el.tagName === 'SCRIPT') continue;
-      if(esCorazon(el)) continue;
+      if(el.contains(logo) || el.contains(destino)) continue;
+      // No tocar los corazones, jefe
+      if(el.textContent.trim() === '❤️') continue;
       const cs = window.getComputedStyle(el);
       if(cs.position === 'fixed' || cs.position === 'absolute' || cs.position === 'sticky'){
-        // Pero si es un banner, jefe, no lo tocamos
-        if(el.querySelector && el.querySelector('.vb-slide')) continue;
         el.style.setProperty('position','relative','important');
         el.style.setProperty('bottom','auto','important');
         el.style.setProperty('left','auto','important');
         el.style.setProperty('right','auto','important');
         el.style.setProperty('top','auto','important');
         el.style.setProperty('width','100%','important');
+        el.style.setProperty('max-width','100%','important');
         el.style.setProperty('transform','none','important');
         el.style.setProperty('margin','0','important');
         destino.appendChild(el);
@@ -255,14 +214,15 @@
     }
     return false;
   }
-  // Lo busca SIEMPRE, jefe, cada 300ms, aunque le des play y se quiera bajar, jefe
+  // AYER: solo 12 segundos. HOY: PARA SIEMPRE, JEFE.
   setInterval(subirBarra, 300);
-  const observador = new MutationObserver(()=>{ subirBarra(); });
-  observador.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style','class'] });
-  document.addEventListener('click', ()=>{ setTimeout(subirBarra, 300); setTimeout(subirBarra, 1000); setTimeout(subirBarra, 2000); });
-  document.addEventListener('play', ()=>{ setTimeout(subirBarra, 300); }, true);
+  // Cada vez que Sonocaster crea algo nuevo, jefe, lo subimos
+  const obs = new MutationObserver(()=>{ subirBarra(); });
+  obs.observe(document.body, { childList: true, subtree: true });
+  // Cada vez que le das play, jefe, lo volvemos a subir
+  document.addEventListener('click', ()=>{ setTimeout(subirBarra, 200); setTimeout(subirBarra, 1000); setTimeout(subirBarra, 2000); });
 
-  // ===== BANNERS PROFESIONALES - LOGICA POR HORA, JEFE =====
+  // ===== BANNERS, JEFE =====
   (function(){
     const track = document.getElementById('vbTrack');
     const bar = document.getElementById('vbBar');
@@ -275,4 +235,8 @@
     const TIEMPO = 6000;
     function ahoraMinutos(){ const d = new Date(); return d.getHours()*60 + d.getMinutes(); }
     function formato(min){ let h = Math.floor(min/60), m = min%60; let ap = h >= 12 ? 'PM' : 'AM'; h = h%12; if(h===0) h=12; return h + ':' + (m<10?'0'+m:m) + ' ' + ap; }
-    function programaActual(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); const e = parseInt(slides[i].dataset.end); if(now >= s && n
+    function programaActual(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); const e = parseInt(slides[i].dataset.end); if(now >= s && now < e) return i; } return -1; }
+    function proximoPrograma(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); if(s > now) return slides[i]; } return slides[0]; }
+    for(let i=0;i<total;i++){ const b = document.createElement('button'); b.className = 'vb-dot'; b.setAttribute('aria-label','Banner '+(i+1)); b.onclick = ()=>{ goTo(i); if(!modoVivo) restart(); }; dotsBox.appendChild(b); }
+    const dots = dotsBox.children;
+    function goTo(i){ index = i; track.style.transform = `translateX(-${index*100}%)`; for(let d=0; d<total; d++) dots[d].classList.toggle('active', d===index); bar.style.transition = 'none'; bar.style.width = '0%'; requestAnimationFrame(()=>{ if
