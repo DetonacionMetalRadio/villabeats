@@ -1,5 +1,5 @@
-// VillaBeats - SW v45
-const CACHE = 'villabeats-v45';
+// VillaBeats - SW v46
+const CACHE = 'villabeats-v46';
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k)))).then(() => self.skipWaiting()));
 });
