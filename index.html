@@ -31,11 +31,11 @@
   .ecualizador span:nth-child(6){height:85%;animation-delay:0.1s}
   .ecualizador span:nth-child(7){height:40%;animation-delay:0.2s}
   @keyframes baila{0%,100%{transform:scaleY(0.4)}50%{transform:scaleY(1)}}
-  .marco-player{width:100%;max-width:420px;padding:12px 4px 4px;border-radius:18px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);background-size:200% 200%;animation:destello 3s linear infinite;box-shadow:0 0 35px rgba(255,43,157,.55), 0 0 60px rgba(0,229,255,.35);position:relative;z-index:20}
-  .marco-player::before{content:"✦ ✧ ✨ ✦ ✧";position:absolute;top:-2px;left:0;right:0;text-align:center;font-size:14px;letter-spacing:18px;color:#FFDD00;text-shadow:0 0 10px #FFDD00, 0 0 20px #ff2b9d;animation:parpadea 1.2s infinite;pointer-events:none;z-index:3}
+  .marco-player{width:100%;max-width:420px;padding:4px;border-radius:18px;background:conic-gradient(from 0deg,#00e5ff,#7b2bff,#ff2b9d,#ff9d00,#00ff88,#00e5ff);background-size:200% 200%;animation:destello 3s linear infinite;box-shadow:0 0 35px rgba(255,43,157,.55), 0 0 60px rgba(0,229,255,.35);position:relative;z-index:20}
+  .marco-player::before{content:"✦ ✧ ✨ ✦ ✧";position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:18px;letter-spacing:18px;color:#FFDD00;text-shadow:0 0 10px #FFDD00, 0 0 20px #ff2b9d;animation:parpadea 1.2s infinite;pointer-events:none;z-index:3}
   @keyframes parpadea{0%,100%{opacity:1}50%{opacity:.3}}
-  .marco-player-inner{background:#161616;border-radius:14px;overflow:hidden;min-height:240px;display:flex;align-items:center;justify-content:center}
-  .marco-player-inner iframe{width:100%;height:240px;border:0;display:block;background:#161616}
+  .marco-player-inner{background:#161616;border-radius:14px;overflow:hidden;min-height:76px;display:flex;align-items:center;justify-content:center}
+  .marco-player-inner iframe{width:100%;height:76px;border:0;display:block;background:#161616}
   .botones{width:100%;max-width:420px;display:flex;gap:10px;margin-top:22px}
   .btn{flex:1;border:none;border-radius:50px;padding:14px 6px;font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .15s;text-decoration:none;text-align:center}
   .btn:active{transform:scale(.95)}
@@ -105,7 +105,7 @@
   <div class="ecualizador"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
   <div class="marco-player">
     <div class="marco-player-inner" id="destino-barra">
-      <iframe src="player.html?v=50" title="Villa Beats Player" scrolling="no" allow="autoplay"></iframe>
+      <iframe src="player.html?v=51" title="Villa Beats Player" scrolling="no" allow="autoplay"></iframe>
     </div>
   </div>
   <div class="botones">
@@ -264,4 +264,4 @@
   window.seguirFacebook = seguirFacebook;
   const MI_PAGINA = 'https://villabeats.pages.dev';
   async function compartir(){
-  
+    const te
