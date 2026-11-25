@@ -49,37 +49,32 @@
   .mensaje{width:100%;max-width:420px;text-align:center;margin-top:12px;font-size:14px;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:10px 12px;border-radius:12px;min-height:20px;font-weight:700;line-height:1.4;opacity:0;transition:opacity .3s}
   .mensaje.mostrar{opacity:1}
   .footer{margin-top:auto;padding:30px 0 8px;color:#5a4a66;font-size:12px;text-align:center;letter-spacing:1px}
-  .vb-carousel{width:100%;max-width:420px;margin-top:14px;overflow:hidden;border-radius:12px;background:#1A0B2E;box-shadow:0 0 20px rgba(255,43,157,.25);position:relative}
-  .vb-track{display:block}
-  .vb-slide{display:none;padding:16px 14px 14px;text-align:center;color:#fff;box-sizing:border-box;position:relative;overflow:hidden}
-  .vb-slide.activo,.vb-slide:first-child{display:block;animation:entra 0.5s ease}
+  /* V55 - 1 SOLO BANNER, SIN CARRUSEL */
+  .vb-banner{width:100%;max-width:420px;margin-top:14px;border-radius:12px;overflow:hidden;box-shadow:0 0 20px rgba(255,43,157,.25);display:none;text-align:center;padding:16px 14px 14px;position:relative;box-sizing:border-box}
+  .vb-banner.mostrar{display:block;animation:entra 0.5s ease}
   @keyframes entra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-  .vb-slide.vamonos{background:linear-gradient(135deg,#2A1450,#3A1A6B)}
-  .vb-slide.recuerdo{background:linear-gradient(135deg,#2B1A0E,#4A2A10)}
-  .vb-slide.kpop{background:linear-gradient(135deg,#2A0E2E,#4B1A5A)}
-  .vb-slide.navidad{background:linear-gradient(90deg,#8b0000,#b30000,#0a5c2e,#b30000,#8b0000);background-size:200% 200%;animation:banner-fondo 6s ease-in-out infinite}
-  .vb-slide.romantica{background:linear-gradient(135deg,#3A0E2E,#6B1A3A,#2A0E2E);background-size:200% 200%;animation:banner-fondo 8s ease-in-out infinite}
-  .vb-slide.cumbia{background:linear-gradient(135deg,#4A0E00,#8B2500,#FF6B00,#8B2500);background-size:200% 200%;animation:banner-fondo 6s ease-in-out infinite}
+  .vb-banner.vamonos{background:linear-gradient(135deg,#2A1450,#3A1A6B)}
+  .vb-banner.recuerdo{background:linear-gradient(135deg,#2B1A0E,#4A2A10)}
+  .vb-banner.kpop{background:linear-gradient(135deg,#2A0E2E,#4B1A5A)}
+  .vb-banner.navidad{background:linear-gradient(90deg,#8b0000,#b30000,#0a5c2e,#b30000,#8b0000);background-size:200% 200%;animation:banner-fondo 6s ease-in-out infinite}
+  .vb-banner.romantica{background:linear-gradient(135deg,#3A0E2E,#6B1A3A,#2A0E2E);background-size:200% 200%;animation:banner-fondo 8s ease-in-out infinite}
+  .vb-banner.cumbia{background:linear-gradient(135deg,#4A0E00,#8B2500,#FF6B00,#8B2500);background-size:200% 200%;animation:banner-fondo 6s ease-in-out infinite}
   @keyframes banner-fondo{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-  .vb-live{position:absolute;top:10px;right:10px;background:#FF2D2D;color:#fff;font-size:10px;font-weight:900;padding:4px 8px;border-radius:20px;letter-spacing:.5px;display:none;align-items:center;gap:4px;z-index:2}
+  .vb-live{position:absolute;top:10px;right:10px;background:#FF2D2D;color:#fff;font-size:10px;font-weight:900;padding:4px 8px;border-radius:20px;letter-spacing:.5px;display:inline-flex;align-items:center;gap:4px;z-index:2}
   .vb-live i{width:7px;height:7px;background:#fff;border-radius:50%;display:inline-block;animation:vb-blink 1.2s infinite}
   @keyframes vb-blink{0%,100%{opacity:1}50%{opacity:.2}}
-  .vb-slide.is-live .vb-live{display:inline-flex}
   .vb-emoji{font-size:26px;display:block;margin-bottom:4px;animation:vb-float 3s ease-in-out infinite}
   @keyframes vb-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
   .vb-title{font-size:21px;font-weight:900;letter-spacing:1px;margin:0;line-height:1.1;color:#FFD700;text-transform:uppercase;text-shadow:0 0 12px rgba(255,215,0,.4)}
-  .vb-slide.kpop .vb-title{color:#FF9FF3}
-  .vb-slide.recuerdo .vb-title{color:#FFE8A3}
-  .vb-slide.romantica .vb-title{color:#FF8FA3}
-  .vb-slide.cumbia .vb-title{color:#FFE600}
+  .vb-banner.kpop .vb-title{color:#FF9FF3}
+  .vb-banner.recuerdo .vb-title{color:#FFE8A3}
+  .vb-banner.romantica .vb-title{color:#FF8FA3}
+  .vb-banner.cumbia .vb-title{color:#FFE600}
   .vb-sub{font-size:13px;font-weight:900;margin:6px 0 0;color:#FFE696}
   .vb-desc{font-size:12px;margin:4px 0 0;color:#fff;opacity:.85;line-height:1.4;font-weight:700}
-  .vb-badge{display:inline-block;margin-top:9px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.5px;background:#FFD700;color:#1A0B2E}
-  .vb-slide.kpop .vb-badge{background:#FF9FF3}
-  .vb-slide.romantica .vb-badge{background:#FF8FA3;color:#fff}
-  .vb-slide.cumbia .vb-badge{background:#FFE600;color:#4A0E00}
-  .vb-slide.is-live .vb-badge{background:#00C853;color:#fff}
-  .vb-nieve{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .vb-badge{display:inline-block;margin-top:9px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.5px;background:#00C853;color:#fff}
+  .vb-nieve{position:absolute;inset:0;pointer-events:none;overflow:hidden;display:none}
+  .vb-banner.navidad .vb-nieve{display:block}
   .vb-nieve i{position:absolute;top:-12px;color:#fff;font-style:normal;font-size:12px;opacity:.9;animation:cae-nieve 3.2s linear infinite}
   .vb-nieve i:nth-child(1){left:8%;animation-delay:0s}
   .vb-nieve i:nth-child(2){left:30%;animation-delay:.6s}
@@ -87,12 +82,6 @@
   .vb-nieve i:nth-child(4){left:78%;animation-delay:.3s}
   .vb-nieve i:nth-child(5){left:92%;animation-delay:1.5s}
   @keyframes cae-nieve{0%{transform:translateY(-10px) rotate(0deg);opacity:0}15%{opacity:1}100%{transform:translateY(110px) rotate(180deg);opacity:0}}
-  .vb-dots{display:flex;justify-content:center;gap:8px;padding:10px 0 10px;background:#140822}
-  .vb-dot{width:7px;height:7px;border-radius:50%;background:#ffffff33;border:0;cursor:pointer;transition:.3s;padding:0}
-  .vb-dot.active{width:22px;border-radius:10px;background:#FFD700}
-  .vb-progress{height:3px;background:#ffffff1a;overflow:hidden}
-  .vb-progress-bar{height:100%;width:0%;background:#FFD700;transition:width linear}
-  .vb-next{text-align:center;font-size:11px;color:#FFD700;background:#140822;padding:0 0 10px;margin:0;font-weight:700}
 </style>
 </head>
 <body>
@@ -105,7 +94,7 @@
   <div class="ecualizador"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
   <div class="marco-player">
     <div class="marco-player-inner" id="destino-barra">
-      <iframe src="player.html?v=51" title="Villa Beats Player" scrolling="no" allow="autoplay"></iframe>
+      <iframe src="player.html?v=55" title="Villa Beats Player" scrolling="no" allow="autoplay"></iframe>
     </div>
   </div>
   <div class="botones">
@@ -114,126 +103,62 @@
     <button class="btn btn-share" onclick="compartir()">↗️ Compartir</button>
   </div>
   <div class="contador-likes">A <b id="num-likes">1,249</b> personas les gusta Villa Beats ❤️</div>
-  <div class="vb-carousel" id="vbCarousel">
-    <div class="vb-track" id="vbTrack">
-      <div class="vb-slide vamonos activo" data-start="360" data-end="480">
-        <span class="vb-live"><i></i> EN VIVO AHORA</span>
-        <span class="vb-emoji">🐓☀️</span>
-        <h3 class="vb-title">Vámonos Pues Villa</h3>
-        <p class="vb-sub">Lunes a Sábado • 6:00 AM – 8:00 AM</p>
-        <p class="vb-desc">Cumbia, banda y rancheras para despertar con ganas.<br>¡Vamos pues, que ya es hora!</p>
-        <span class="vb-badge">🔴 EN LA MAÑANA</span>
-      </div>
-      <div class="vb-slide recuerdo" data-start="720" data-end="840">
-        <span class="vb-live"><i></i> EN VIVO AHORA</span>
-        <span class="vb-emoji">🎶❤️</span>
-        <h3 class="vb-title">La Hora del Recuerdo</h3>
-        <p class="vb-sub">Todos los días • 12:00 PM – 2:00 PM</p>
-        <p class="vb-desc">Baladas y clásicos para comer rico.<br>Juan Gabriel, José José, Ana Gabriel y más.</p>
-        <span class="vb-badge">🍽️ HORA DE COMER</span>
-      </div>
-      <div class="vb-slide kpop" data-start="840" data-end="960">
-        <span class="vb-live"><i></i> EN VIVO AHORA</span>
-        <span class="vb-emoji">💜✨</span>
-        <h3 class="vb-title">K-Pop Zone</h3>
-        <p class="vb-sub">Todos los días • 2:00 PM – 4:00 PM</p>
-        <p class="vb-desc">BTS, BLACKPINK, Stray Kids, NewJeans.<br>Tu zona, tu música, tu fandom.</p>
-        <span class="vb-badge">💜 ARMY • BLINK • STAY</span>
-      </div>
-      <div class="vb-slide navidad" data-start="960" data-end="1040">
-        <div class="vb-nieve"><i>❄</i><i>❄</i><i>❄</i><i>❄</i><i>❄</i></div>
-        <span class="vb-live"><i></i> EN VIVO AHORA</span>
-        <span class="vb-emoji">🎄🎅</span>
-        <h3 class="vb-title">La Tarde Navideña</h3>
-        <p class="vb-sub">Todos los días • 4:00 PM – 5:20 PM</p>
-        <p class="vb-desc">Villancicos, cumbia navideña y alegría.<br>¡Falta 1 mes para Navidad!</p>
-        <span class="vb-badge">🎄 SOLO EN VILLABEATS</span>
-      </div>
-      <div class="vb-slide cumbia" data-start="1040" data-end="1140">
-        <span class="vb-live"><i></i> EN VIVO AHORA</span>
-        <span class="vb-emoji">💃🕺🎺</span>
-        <h3 class="vb-title">Tarde de Cumbia</h3>
-        <p class="vb-sub">Todos los días • 5:20 PM – 7:00 PM</p>
-        <p class="vb-desc">Cumbia para bailar y gozar en la tarde.<br>¡A mover el esqueleto, Villa!</p>
-        <span class="vb-badge">🔥 A BAILAR</span>
-      </div>
-      <div class="vb-slide romantica" data-start="1140" data-end="1260">
-        <span class="vb-live"><i></i> EN VIVO AHORA</span>
-        <span class="vb-emoji">💌🌙</span>
-        <h3 class="vb-title">Noche Romántica</h3>
-        <p class="vb-sub">Todos los días • 7:00 PM – 9:00 PM</p>
-        <p class="vb-desc">Baladas y románticas para cenar y enamorarse.<br>Juan Gabriel, José José, Camila, Sin Bandera y más.</p>
-        <span class="vb-badge">❤️ PARA ENAMORADOS</span>
-      </div>
-    </div>
-    <div class="vb-progress"><div class="vb-progress-bar" id="vbBar"></div></div>
-    <p class="vb-next" id="vbNext">🎶 VillaBeats al aire</p>
-    <div class="vb-dots" id="vbDots"></div>
+
+  <!-- V55 - 1 SOLO BANNER, APARECE SOLO SI HAY PROGRAMA -->
+  <div class="vb-banner" id="vbBanner">
+    <div class="vb-nieve"><i>❄</i><i>❄</i><i>❄</i><i>❄</i><i>❄</i></div>
+    <span class="vb-live"><i></i> EN VIVO AHORA</span>
+    <span class="vb-emoji" id="vbEmoji">🎄🎅</span>
+    <h3 class="vb-title" id="vbTitulo">La Tarde Navideña</h3>
+    <p class="vb-sub" id="vbHorario">Todos los días • 4:00 PM – 5:20 PM</p>
+    <p class="vb-desc" id="vbDesc">Villancicos, cumbia navideña y alegría.</p>
+    <span class="vb-badge">🔴 SONANDO AHORA EN VILLABEATS</span>
   </div>
+
   <div class="mensaje" id="mensaje"></div>
   <div class="footer">© 2026 VillaBeats</div>
 <script>
+  // V55 - SIN CARRUSEL - 1 BANNER SOLO SI HAY PROGRAMA, SI NO LIMPIO
   (function(){
-    try{
-    const track = document.getElementById('vbTrack');
-    const bar = document.getElementById('vbBar');
-    const dotsBox = document.getElementById('vbDots');
-    const nextText = document.getElementById('vbNext');
-    if(!track) return;
-    const slides = Array.from(track.children);
-    const total = slides.length;
-    let index = 0, timerB = null, modoVivo = false;
-    const TIEMPO = 4000;
-    function ahoraMinutos(){ const d = new Date(); return d.getHours()*60 + d.getMinutes(); }
-    function formato(min){ let h = Math.floor(min/60), m = min%60; let ap = h >= 12 ? 'PM' : 'AM'; h = h%12; if(h===0) h=12; return h + ':' + (m<10?'0'+m:m) + ' ' + ap; }
-    function programaActual(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); const e = parseInt(slides[i].dataset.end); if(now >= s && now < e) return i; } return -1; }
-    function proximoPrograma(){ const now = ahoraMinutos(); for(let i=0;i<slides.length;i++){ const s = parseInt(slides[i].dataset.start); if(s > now) return slides[i]; } return slides[0]; }
-    for(let i=0;i<total;i++){ const b = document.createElement('button'); b.className = 'vb-dot'; b.setAttribute('aria-label','Banner '+(i+1)); b.onclick = ()=>{ goTo(i); if(!modoVivo) restart(); }; dotsBox.appendChild(b); }
-    const dots = dotsBox.children;
-    function goTo(i){
-      index = i;
-      for(let k=0;k<total;k++){ if(k===index) slides[k].classList.add('activo'); else slides[k].classList.remove('activo'); }
-      for(let d=0; d<total; d++) dots[d].classList.toggle('active', d===index);
-      bar.style.transition = 'none'; bar.style.width = '0%';
-      requestAnimationFrame(()=>{ if(!modoVivo){ bar.style.transition = 'width '+TIEMPO+'ms linear'; bar.style.width = '100%'; } else { bar.style.width = '100%'; } });
-    }
-    function next(){ goTo((index+1)%total); }
-    function restart(){ clearInterval(timerB); timerB = setInterval(next, TIEMPO); }
-    function detener(){ clearInterval(timerB); timerB = null; }
-    function actualizarPorHora(){
-      const vivo = programaActual();
-      slides.forEach(s => s.classList.remove('is-live'));
-      if(vivo !== -1){
-        modoVivo = true; detener();
-        slides[vivo].classList.add('is-live');
-        const badge = slides[vivo].querySelector('.vb-badge');
-        if(badge) badge.textContent = '🔴 SONANDO AHORA EN VILLABEATS';
-        goTo(vivo);
-        const prox = slides[(vivo+1)%total];
-        nextText.textContent = 'Ahora: ' + slides[vivo].querySelector('.vb-title').textContent + ' • Próximo: ' + prox.querySelector('.vb-title').textContent;
-        bar.style.background = '#00C853';
-      } else {
-        modoVivo = false; bar.style.background = '#FFD700';
-        const prox = proximoPrograma();
-        nextText.textContent = '⏰ Próximo programa: ' + prox.querySelector('.vb-title').textContent + ' a las ' + formato(parseInt(prox.dataset.start));
-        if(!timerB) restart();
-        goTo(slides.indexOf(prox));
+    var banner = document.getElementById('vbBanner');
+    var emoji = document.getElementById('vbEmoji');
+    var titulo = document.getElementById('vbTitulo');
+    var horario = document.getElementById('vbHorario');
+    var desc = document.getElementById('vbDesc');
+    if(!banner) return;
+
+    var programas = [
+      {clase:'vamonos', emoji:'🐓☀️', titulo:'Vámonos Pues Villa', horario:'Lunes a Sábado • 6:00 AM – 8:00 AM', desc:'Cumbia, banda y rancheras para despertar con ganas.<br>¡Vamos pues, que ya es hora!', start:360, end:480},
+      {clase:'recuerdo', emoji:'🎶❤️', titulo:'La Hora del Recuerdo', horario:'Todos los días • 12:00 PM – 2:00 PM', desc:'Baladas y clásicos para comer rico.<br>Juan Gabriel, José José, Ana Gabriel y más.', start:720, end:840},
+      {clase:'kpop', emoji:'💜✨', titulo:'K-Pop Zone', horario:'Todos los días • 2:00 PM – 4:00 PM', desc:'BTS, BLACKPINK, Stray Kids, NewJeans.<br>Tu zona, tu música, tu fandom.', start:840, end:960},
+      {clase:'navidad', emoji:'🎄🎅', titulo:'La Tarde Navideña', horario:'Todos los días • 4:00 PM – 5:20 PM', desc:'Villancicos, cumbia navideña y alegría.<br>¡Falta 1 mes para Navidad!', start:960, end:1040},
+      {clase:'cumbia', emoji:'💃🕺🎺', titulo:'Tarde de Cumbia', horario:'Todos los días • 5:20 PM – 7:00 PM', desc:'Cumbia para bailar y gozar en la tarde.<br>¡A mover el esqueleto, Villa!', start:1040, end:1140},
+      {clase:'romantica', emoji:'💌🌙', titulo:'Noche Romántica', horario:'Todos los días • 7:00 PM – 9:00 PM', desc:'Baladas y románticas para cenar y enamorarse.<br>Juan Gabriel, José José, Camila, Sin Bandera y más.', start:1140, end:1260}
+    ];
+
+    function actualizar(){
+      var d = new Date();
+      var ahora = d.getHours()*60 + d.getMinutes();
+      var p = null;
+      for(var i=0;i<programas.length;i++){
+        if(ahora >= programas[i].start && ahora < programas[i].end){ p = programas[i]; break; }
       }
+      if(!p){
+        // SIN PROGRAMA -> LIMPIO, NO SE MUESTRA NADA
+        banner.classList.remove('mostrar');
+        return;
+      }
+      // HAY PROGRAMA -> MUESTRA 1 SOLO BANNER
+      banner.className = 'vb-banner mostrar ' + p.clase;
+      emoji.textContent = p.emoji;
+      titulo.textContent = p.titulo;
+      horario.textContent = p.horario;
+      desc.innerHTML = p.desc;
     }
-    const car = document.getElementById('vbCarousel');
-    car.addEventListener('touchstart', ()=>{ if(!modoVivo) clearInterval(timerB); });
-    car.addEventListener('mouseenter', ()=>{ if(!modoVivo) clearInterval(timerB); });
-    car.addEventListener('mouseleave', ()=>{ if(!modoVivo) restart(); });
-    car.addEventListener('touchend', ()=>{ if(!modoVivo) restart(); });
-    actualizarPorHora();
-    setInterval(actualizarPorHora, 60000);
-    }catch(e){
-      const s = document.querySelector('.vb-slide');
-      if(s) s.classList.add('activo');
-      const n = document.getElementById('vbNext');
-      if(n) n.textContent = '🎶 VillaBeats al aire';
-    }
+    actualizar();
+    setInterval(actualizar, 30000);
   })();
+
   const mensajeEl = document.getElementById('mensaje');
   let timerMensaje;
   function mostrarMensaje(texto){
@@ -264,4 +189,13 @@
   window.seguirFacebook = seguirFacebook;
   const MI_PAGINA = 'https://villabeats.pages.dev';
   async function compartir(){
-    const te
+    const texto = '🔥 ¡Escuchá Villa Beats! La radio que te mueve 🎶 Villa Nueva, Guatemala ❤️ ' + MI_PAGINA;
+    mostrarMensaje('Gracias por compartir VillaBeats 🙏');
+    if(navigator.share){ try{ await navigator.share({title:'Villa Beats Radio', text:'¡Escuchá Villa Beats! La radio que te mueve 🎶', url: MI_PAGINA}); return; }catch(e){} }
+    try{ await navigator.clipboard.writeText(MI_PAGINA); }catch(e){ window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank'); }
+  }
+  window.compartir = compartir;
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=55').catch(()=>{}); }
+</script>
+</body>
+</html>
