@@ -58,6 +58,7 @@
   .vb-slide.recuerdo{background:linear-gradient(135deg,#2B1A0E,#4A2A10)}
   .vb-slide.kpop{background:linear-gradient(135deg,#2A0E2E,#4B1A5A)}
   .vb-slide.navidad{background:linear-gradient(90deg,#8b0000,#b30000,#0a5c2e,#b30000,#8b0000);background-size:200% 200%;animation:banner-fondo 6s ease-in-out infinite}
+  .vb-slide.romantica{background:linear-gradient(135deg,#3A0E2E,#6B1A3A,#2A0E2E);background-size:200% 200%;animation:banner-fondo 8s ease-in-out infinite}
   @keyframes banner-fondo{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
   .vb-live{position:absolute;top:10px;right:10px;background:#FF2D2D;color:#fff;font-size:10px;font-weight:900;padding:4px 8px;border-radius:20px;letter-spacing:.5px;display:none;align-items:center;gap:4px;z-index:2}
   .vb-live i{width:7px;height:7px;background:#fff;border-radius:50%;display:inline-block;animation:vb-blink 1.2s infinite}
@@ -68,10 +69,12 @@
   .vb-title{font-size:21px;font-weight:900;letter-spacing:1px;margin:0;line-height:1.1;color:#FFD700;text-transform:uppercase;text-shadow:0 0 12px rgba(255,215,0,.4)}
   .vb-slide.kpop .vb-title{color:#FF9FF3}
   .vb-slide.recuerdo .vb-title{color:#FFE8A3}
+  .vb-slide.romantica .vb-title{color:#FF8FA3}
   .vb-sub{font-size:13px;font-weight:900;margin:6px 0 0;color:#FFE696}
   .vb-desc{font-size:12px;margin:4px 0 0;color:#fff;opacity:.85;line-height:1.4;font-weight:700}
   .vb-badge{display:inline-block;margin-top:9px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.5px;background:#FFD700;color:#1A0B2E}
   .vb-slide.kpop .vb-badge{background:#FF9FF3}
+  .vb-slide.romantica .vb-badge{background:#FF8FA3;color:#fff}
   .vb-slide.is-live .vb-badge{background:#00C853;color:#fff}
   .vb-nieve{position:absolute;inset:0;pointer-events:none;overflow:hidden}
   .vb-nieve i{position:absolute;top:-12px;color:#fff;font-style:normal;font-size:12px;opacity:.9;animation:cae-nieve 3.2s linear infinite}
@@ -99,7 +102,6 @@
   <div class="ecualizador"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
   <div class="marco-player">
     <div class="marco-player-inner" id="destino-barra">
-      <!-- AQUI VA EL PLAYER APARTE, JEFE - YA NACE ADENTRO, JEFE -->
       <iframe src="player.html" title="Villa Beats Player" scrolling="no" allow="autoplay"></iframe>
     </div>
   </div>
@@ -145,6 +147,14 @@
         <p class="vb-desc">Villancicos, cumbia navideña y alegría.<br>¡Falta 1 mes para Navidad!</p>
         <span class="vb-badge">🎄 SOLO EN VILLABEATS</span>
       </div>
+      <div class="vb-slide romantica" data-start="1140" data-end="1260">
+        <span class="vb-live"><i></i> EN VIVO AHORA</span>
+        <span class="vb-emoji">💌🌙</span>
+        <h3 class="vb-title">Noche Romántica</h3>
+        <p class="vb-sub">Todos los días • 7:00 PM – 9:00 PM</p>
+        <p class="vb-desc">Baladas y románticas para cenar y enamorarse.<br>Juan Gabriel, José José, Camila, Sin Bandera y más.</p>
+        <span class="vb-badge">❤️ PARA ENAMORADOS</span>
+      </div>
     </div>
     <div class="vb-progress"><div class="vb-progress-bar" id="vbBar"></div></div>
     <p class="vb-next" id="vbNext">Cargando programación...</p>
@@ -154,7 +164,6 @@
   <div class="mensaje" id="mensaje"></div>
   <div class="footer">© 2026 VillaBeats</div>
 <script>
-  // ===== BANNERS - SIN TOCAR EL PLAYER, JEFE =====
   (function(){
     try{
     const track = document.getElementById('vbTrack');
@@ -250,7 +259,7 @@
     try{ await navigator.clipboard.writeText(MI_PAGINA); }catch(e){ window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank'); }
   }
   window.compartir = compartir;
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=45').catch(()=>{}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js?v=46').catch(()=>{}); }
 </script>
 </body>
 </html>
