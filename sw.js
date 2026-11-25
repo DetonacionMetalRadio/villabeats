@@ -1,5 +1,5 @@
-// VillaBeats - SW v51 - Barra bonita
-const CACHE = 'villabeats-v51';
+// VillaBeats - SW v55 - Sin carrusel
+const CACHE = 'villabeats-v55';
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k)))).then(() => self.skipWaiting()));
 });
